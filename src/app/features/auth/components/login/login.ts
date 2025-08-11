@@ -1,11 +1,30 @@
 import { Component } from '@angular/core';
+import { FormsModule } from '@angular/forms';
+import { CommonModule } from '@angular/common';
 
 @Component({
-  selector: 'app-login',
-  imports: [],
+  selector: 'login',
+  standalone: true,
+  imports: [FormsModule, CommonModule],
   templateUrl: './login.html',
-  styleUrl: './login.css'
+  styleUrls: ['./login.css']
 })
-export class Login {
+export class LoginComponent {
+  email = '';
+  password = '';
+  showPassword = false;
 
+  togglePassword() {
+    this.showPassword = !this.showPassword;
+  }
+
+  onSubmit() {
+    if (!this.email || !this.password) {
+      alert('Please fill all fields!');
+      return;
+    }
+    console.log('Email:', this.email);
+    console.log('Password:', this.password);
+    alert('Login Successful!');
+  }
 }
