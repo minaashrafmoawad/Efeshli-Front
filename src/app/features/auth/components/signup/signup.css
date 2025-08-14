@@ -43,37 +43,37 @@
   text-decoration: none;
 }
 
-/* جميع الليبلز داخل الفورم و social buttons */
+
 .label-text {
-  font-size: 0.85rem !important; /* تأكيد الحجم */
+  font-size: 0.85rem !important; 
   font-weight: normal;
   text-align: left;
   font-weight: bold;
   display: block;
   margin-bottom: 0.3rem;
   position: relative;
-  z-index: 1; /* للتأكد إنه فوق الـ inputs */
+  z-index: 1; /
 }
 
 .social-buttons {
   display: flex;
-  gap: 1rem; /* مسافة بين الزرارين */
+  gap: 1rem;
   margin: .75rem 0;
-  justify-content: flex-start; /* يخليهم جنب بعض على الشمال */
+  justify-content: flex-start; 
 }
 
 .social-btn {
   display: flex;
   align-items: center;
   gap: 0.5rem;
-  padding: 0.9rem 0.55rem; /* ارتفاع ثابت وعرض أقل */
+  padding: 0.9rem 0.55rem; 
   border: 1px solid #ccc;
   border-radius: 8px;
   background: #f8f9fa;
   cursor: pointer;
-  font-size: 0.85rem; /* نفس حجم الليبل */
-  width: auto; /* ✅ خلي العرض يعتمد على المحتوى مش 50% */
-  min-width: 220px; /* ✅ عرض أصغر ثابت لو حبيتي */
+  font-size: 0.85rem;
+  width: auto; 
+  min-width: 220px;
 }
 
 .social-btn img {
@@ -85,24 +85,24 @@
 .divider {
   text-align: center;
   margin: 1rem 0;
-  font-size: 0.85rem; /* نفس حجم الليبل */
-  color: #666; /* لون الكلمة رمادي */
+  font-size: 0.85rem; 
+  color: #666; 
   position: relative;
   display: flex;
   align-items: center;
-  gap: 1rem; /* مسافة بين الكلمة والخطوط */
+  gap: 1rem; 
 }
 
 .divider::before {
   content: "";
- width: 42%;/* الخط على اليسار يمتد بالكامل */
+ width: 42%;
   height: 1px;
   background: #ccc;
 }
 
 .divider::after {
   content: "";
-  width: 42% ; /* الخط على اليمين أصغر */
+  width: 42%;
   height: 1px;
   background: #ccc;
 }
@@ -147,7 +147,7 @@
   font-size: 0.85rem;
 }
 
-/* تعديل خاص بالـ password inputs بعد إزالة الـ wrapper */
+
 .password-input-container {
   position: relative;
   flex: 1;
@@ -165,11 +165,11 @@
 
 .password-input-container img {
   position: absolute;
-  right: 0.5rem; /* تقليل المسافة من اليمين */
+  right: 0.5rem; 
   top: 50%;
-  transform: translateY(-50%); /* يخليها في منتصف الـ input عموديًا */
-  width: 16px;  /* حجم أصغر */
-  height: 16px; /* ارتفاع متناسب مع العرض */
+  transform: translateY(-50%);
+  width: 16px; 
+  height: 16px; 
   cursor: pointer;
 }
 
@@ -177,7 +177,7 @@
 
 .signup-btn {
   padding: 1rem 2rem;
-  margin: 1rem 0 0 0; /* خليت الهامش الأعلى زي ما هو، واليسار 0 عشان يروح شمال */
+  margin: 1rem 0 0 0; 
   border: none;
   background: black;
   color: white;
@@ -187,8 +187,8 @@
   font-weight: bold;
   display: block;
   text-align: center;
-  width: 90.7%; /* عرض البوتون */
-  /* البوتون دلوقتي على الشمال بدل المنتصف */
+  width: 90.7%; 
+  
 }
 
 
