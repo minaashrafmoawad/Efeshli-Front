@@ -10,6 +10,7 @@ import { LoginComponent } from './features/auth/components/login/login';
   imports: [RouterOutlet, SignUp, LoginComponent, /* CartItems */], // استخدم CartItemsComponent
   templateUrl: './app.html', // استخدم الاسم القياسي
   styleUrls: ['./app.css']
+
 })
 export class AppComponent {
   protected readonly title = signal('eFreshli-clone');
