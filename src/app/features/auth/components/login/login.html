@@ -1,26 +1,42 @@
 <div class="login-wrapper">
-  <!-- النصف الشمال: صورة الخلفية -->
+  <!-- Left image -->
   <div class="login-image"></div>
 
-  <!-- النصف اليمين: الفورم -->
+  <!-- Right form -->
   <div class="login-form-container">
     <div class="login-card">
-      <!-- اللوجو -->
-      <img src="assets/logo.svg" alt="Logo" class="logo" />
+      <h2>Sign in</h2>
+      <p>Don't have account? <a href="#">Sign up</a></p>
 
-      <h2>Login</h2>
+      <!-- Social buttons -->
+      <div class="social-buttons">
+        <button class="social-btn google-btn">
+          <img src="/assets/Google.png" alt="Google" />
+          Continue with Google
+        </button>
+        <button class="social-btn facebook-btn">
+          <img src="/assets/Facebook.png" alt="Facebook" />
+          Continue with Facebook
+        </button>
+      </div>
 
-      <form>
-        <label>Email *</label>
-        <input type="email" placeholder="Enter your email" required />
+      <div class="divider"><span>or</span></div>
 
-        <label>Password *</label>
-        <input type="password" placeholder="Enter your password" required />
+      <!-- Email -->
+      <label>Email address <span class="required">*</span></label>
+      <input type="email" placeholder="Enter your email address" />
 
-        <button type="submit" class="login-btn">Login</button>
+      <!-- Password -->
+      <label>Password <span class="required">*</span></label>
+      <div class="password-wrapper">
+        <input type="password" placeholder="Enter your password" />
+        <img src="/assets/Eye.png" alt="Toggle" class="eye-icon" />
+      </div>
 
-        <a href="#" class="create-account">Create Account?</a>
-      </form>
+      <a href="#" class="forgot">Forgot password</a>
+
+      <!-- Login button -->
+      <button class="login-btn">Sign in</button>
     </div>
   </div>
 </div>

@@ -1,0 +1,205 @@
+.signup-container {
+  display: flex;
+  min-height: 100vh;
+}
+
+.left-side {
+  flex: 1.1;
+}
+
+.left-side img {
+  width: 81.5%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.right-side {
+  flex: 1;
+  padding: 2.5rem;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  max-width: 500px;
+  margin: 0 auto;
+}
+
+.form-title {
+  font-size: 1.5rem;
+  margin-bottom: 0.5rem;
+  color: black;
+  text-align: left;
+}
+
+.signin-text {
+  color: black;
+  font-size: 0.97rem;
+  margin-bottom: 1rem;
+  text-align: left;
+}
+
+.signin-link {
+  font-size: 0.97rem;
+  color: red;
+  text-decoration: none;
+}
+
+/* جميع الليبلز داخل الفورم و social buttons */
+.label-text {
+  font-size: 0.85rem !important; /* تأكيد الحجم */
+  font-weight: normal;
+  text-align: left;
+  font-weight: bold;
+  display: block;
+  margin-bottom: 0.3rem;
+  position: relative;
+  z-index: 1; /* للتأكد إنه فوق الـ inputs */
+}
+
+.social-buttons {
+  display: flex;
+  gap: 1rem; /* مسافة بين الزرارين */
+  margin: .75rem 0;
+  justify-content: flex-start; /* يخليهم جنب بعض على الشمال */
+}
+
+.social-btn {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.9rem 0.55rem; /* ارتفاع ثابت وعرض أقل */
+  border: 1px solid #ccc;
+  border-radius: 8px;
+  background: #f8f9fa;
+  cursor: pointer;
+  font-size: 0.85rem; /* نفس حجم الليبل */
+  width: auto; /* ✅ خلي العرض يعتمد على المحتوى مش 50% */
+  min-width: 220px; /* ✅ عرض أصغر ثابت لو حبيتي */
+}
+
+.social-btn img {
+  width: 20px;
+  height: 20px;
+}
+
+
+.divider {
+  text-align: center;
+  margin: 1rem 0;
+  font-size: 0.85rem; /* نفس حجم الليبل */
+  color: #666; /* لون الكلمة رمادي */
+  position: relative;
+  display: flex;
+  align-items: center;
+  gap: 1rem; /* مسافة بين الكلمة والخطوط */
+}
+
+.divider::before {
+  content: "";
+ width: 42%;/* الخط على اليسار يمتد بالكامل */
+  height: 1px;
+  background: #ccc;
+}
+
+.divider::after {
+  content: "";
+  width: 42% ; /* الخط على اليمين أصغر */
+  height: 1px;
+  background: #ccc;
+}
+
+
+.input-row {
+  display: flex;
+  gap: 1rem;
+  margin-bottom: 1rem;
+}
+
+.input-row input {
+  flex: 1;
+  height: 45px;
+  padding: 0 0.8rem;
+  border: 1px solid #ccc;
+  border-radius: 8px;
+  font-size: 0.95rem;
+  box-sizing: border-box;
+}
+
+.phone-input {
+  display: flex;
+  align-items: center;
+  flex: 1;
+  border: 1px solid #ccc;
+  border-radius: 8px;
+  padding: 0 0.5rem;
+  background: white;
+}
+
+.phone-input img {
+  width: 24px;
+  margin-right: 0.5rem;
+}
+
+.phone-input input {
+  border: none;
+  outline: none;
+  flex: 1;
+  padding: 0.8rem 0;
+  font-size: 0.85rem;
+}
+
+/* تعديل خاص بالـ password inputs بعد إزالة الـ wrapper */
+.password-input-container {
+  position: relative;
+  flex: 1;
+}
+
+.password-input-container input {
+  width: 100%;
+  height: 45px;
+  padding: 0 2.5rem 0 0.8rem;
+  border: 1px solid #ccc;
+  border-radius: 8px;
+  font-size: 0.95rem;
+  box-sizing: border-box;
+}
+
+.password-input-container img {
+  position: absolute;
+  right: 0.5rem; /* تقليل المسافة من اليمين */
+  top: 50%;
+  transform: translateY(-50%); /* يخليها في منتصف الـ input عموديًا */
+  width: 16px;  /* حجم أصغر */
+  height: 16px; /* ارتفاع متناسب مع العرض */
+  cursor: pointer;
+}
+
+
+
+.signup-btn {
+  padding: 1rem 2rem;
+  margin: 1rem 0 0 0; /* خليت الهامش الأعلى زي ما هو، واليسار 0 عشان يروح شمال */
+  border: none;
+  background: black;
+  color: white;
+  border-radius: 8px;
+  cursor: pointer;
+  font-size: 0.85rem;
+  font-weight: bold;
+  display: block;
+  text-align: center;
+  width: 90.7%; /* عرض البوتون */
+  /* البوتون دلوقتي على الشمال بدل المنتصف */
+}
+
+
+@media (max-width: 768px) {
+  .signup-container {
+    flex-direction: column;
+  }
+  .left-side {
+    height: 250px;
+  }
+  .signup-btn {
+    width: 100%;
+  }
+}

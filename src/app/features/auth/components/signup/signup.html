@@ -1,1 +1,71 @@
-<p>signup works!</p>
+<div class="signup-container">
+  <!-- Left Side -->
+  <div class="left-side">
+    <img src="./assets/Background.png" alt="Living Room">
+  </div>
+
+  <!-- Right Side -->
+  <div class="right-side">
+    <h2 class="form-title">Sign up</h2>
+    <p class="signin-text">
+      Already have account? <a href="#" class="signin-link">Sign in</a>
+    </p>
+
+    <!-- Social Buttons -->
+    <div class="social-buttons">
+      <button class="social-btn google-btn">
+        <img src="./assets/Google.png" alt="Google">
+        <span class="label-text">Continue with Google</span>
+      </button>
+      <button class="social-btn facebook-btn">
+        <img src="./assets/Facebook.png" alt="Facebook">
+        <span class="label-text">Continue with Facebook</span>
+      </button>
+    </div>
+
+    <div class="divider">or</div>
+
+    <!-- Form -->
+    <form (ngSubmit)="signup()">
+      <div class="input-row">
+        <div>
+          <label class="label-text" for="firstName">First name<span style="color: red;">*</span></label>
+          <input type="text" id="firstName" placeholder="Enter your first name" [(ngModel)]="firstName" name="firstName" required>
+        </div>
+        <div>
+          <label class="label-text" for="lastName">Last name<span style="color: red;">*</span></label>
+          <input type="text" id="lastName" placeholder="Enter your last name" [(ngModel)]="lastName" name="lastName" required>
+        </div>
+      </div>
+
+      <div class="input-row">
+        <div>
+          <label class="label-text" for="email">Email address<span style="color: red;">*</span></label>
+          <input type="email" id="email" placeholder="Enter your email address" [(ngModel)]="email" name="email" required>
+        </div>
+        <div>
+          <label class="label-text" for="phone">Phone number<span style="color: red;">*</span></label>
+          <div class="phone-input">
+            <img src="./assets/Flag.png" alt="Flag">
+            <input type="tel" id="phone" placeholder="EX: 01001234567" [(ngModel)]="phone" name="phone" required>
+          </div>
+        </div>
+      </div>
+
+      <div class="input-row">
+        <div style="position: relative;">
+          <label class="label-text" for="password">Password<span style="color: red;">*</span></label>
+          <input type="password" id="password" placeholder="Enter your password" [(ngModel)]="password" name="password" required>
+          <img src="./assets/Eye.png" alt="Toggle Password" (click)="togglePassword('password')" style="position: absolute; right: 10px; top: 35px; cursor: pointer;">
+        </div>
+        <div style="position: relative;">
+          <label class="label-text" for="confirmPassword">Confirm password<span style="color: red;">*</span></label>
+          <input type="password" id="confirmPassword" placeholder="Confirm password" [(ngModel)]="confirmPassword" name="confirmPassword" required>
+          <img src="./assets/Eye.png" alt="Toggle Password" (click)="togglePassword('confirmPassword')" style="position: absolute; right: 10px; top: 35px; cursor: pointer;">
+        </div>
+      </div>
+
+      <button type="submit" class="signup-btn">Sign up</button>
+    </form>
+  </div>
+</div>
