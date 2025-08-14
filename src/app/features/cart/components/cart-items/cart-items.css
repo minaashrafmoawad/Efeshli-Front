@@ -1,12 +1,12 @@
 .empty-cart-items-container {
-  font-family: __avertaFont_035a6f, __avertaFont_Fallback_035a6f; /* إضافة الفونت */
+  font-family: __avertaFont_035a6f, __avertaFont_Fallback_035a6f;
   display: flex;
   flex-direction: column;
-  align-items: center; /* مركز العناصر أفقيًا */
-  justify-content: center; /* مركز العناصر عموديًا */
+  align-items: center;
+  justify-content: center;
   min-height: 100vh;
   text-align: center;
-  padding: 40px; /* زودت البادينج */
+  padding: 40px; 
   box-sizing: border-box;
 }
 
@@ -14,26 +14,26 @@
   max-width: 100%;
   height: auto;
   display: block;
-  margin-left: 20px; /* تحريك الصورة لليمين بمقدار 20px */
-  margin-right: 0; /* تأكيد عدم وجود مسافة من اليمين */
+  margin-left: 20px; 
+  margin-right: 0;
 }
 
 
 
 .cart-items-title {
-  font-size: 18px; /* زودت الحجم */
-  line-height: 26px; /* زودت الارتفاع عشان يبقى متناسق */
+  font-size: 18px;
+  line-height: 26px;
   font-weight: 700;
   color: black;
   margin: 30px 0 15px;
-  font-family: __avertaFont_035a6f, __avertaFont_Fallback_035a6f; /* صححت الكتابة */
-  letter-spacing: 1px; /* زيادة بسيطة في عرض الحروف */
+  font-family: __avertaFont_035a6f, __avertaFont_Fallback_035a6f;
+  letter-spacing: 1px;
 }
 
 
 .cart-items-subtitle {
 
-  font-size: 16px; /* كبرت النص الفرعي */
+  font-size: 16px; 
   line-height: 24px;
   font-weight: 400;
   color: black;
@@ -45,26 +45,26 @@
   background-color: #CA0101;
   color: white;
   border: none;
-  padding: 12px 25px; /* كبرت البوتون */
-  font-size: 1.2rem; /* كبرت الخط */
+  padding: 12px 25px;
+  font-size: 1.2rem; 
   border-radius: 10px;
   cursor: pointer;
   transition: background-color 0.3s;
   font-family: __avertaFont_035a6f, __avertaFont_Fallback_035a6f;
-  font-weight: bold; /* جعلت النص بولد */
-  min-width: 320px; /* زادت عرض البوتون شوية */
+  font-weight: bold;
+  min-width: 320px;
 }
 
 .start-shopping-items-btn:hover {
   background-color: #E60000;
 }
 
-/* Responsive Design (تحديث للتأكد من الـ responsive) */
+
 @media (max-width: 768px) {
   .start-shopping-items-btn {
     font-size: 0.9rem;
     padding: 8px 16px;
-    min-width: 150px; /* تقليل العرض في الشاشات الصغيرة */
+    min-width: 150px; 
   }
 }
 
@@ -72,6 +72,6 @@
   .start-shopping-items-btn {
     font-size: 0.8rem;
     padding: 6px 12px;
-    min-width: 120px; /* تقليل العرض أكتر في الشاشات الصغيرة جدًا */
+    min-width: 120px;
   }
 }
