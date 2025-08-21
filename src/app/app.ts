@@ -5,11 +5,11 @@ import { LoginComponent } from './features/auth/components/login/login';
 import { CartItemsComponent } from './features/cart/components/cart-items/cart-items';
 import { ReactiveFormsModule } from '@angular/forms';
 // import { EmailConfirmationComponent } from './features/auth/components/EmailConfirmation/EmailConfirmation.component';
-
+import { ProductDetailPageComponent } from './features/products/components/product-details/product-details';
 @Component({
   selector: 'app-root',
   standalone: true,
-  imports: [RouterOutlet,ReactiveFormsModule],
+  imports: [RouterOutlet, SignUp, LoginComponent, CartItemsComponent, ProductDetailPageComponent],
   templateUrl: './app.html',
   styleUrls: ['./app.css']
 

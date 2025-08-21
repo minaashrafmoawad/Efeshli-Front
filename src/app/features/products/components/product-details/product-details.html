@@ -1,1 +1,198 @@
-<p>product-details works!</p>
+<!-- Loading State -->
+<div *ngIf="isLoading()" class="loading-container">
+  <div class="loading-spinner"></div>
+  <p>Loading product details...</p>
+</div>
+
+<!-- Error State -->
+<div *ngIf="error()" class="error-container">
+  <div class="error-message">
+    <h2>Oops! Something went wrong</h2>
+    <p>{{ error() }}</p>
+    <button (click)="goBack()" class="btn-secondary">Go Back</button>
+  </div>
+</div>
+
+<!-- Product Details -->
+<div *ngIf="product() && !isLoading() && !error()" class="product-details-container">
+  <!-- Breadcrumb Navigation -->
+  <nav class="breadcrumb">
+    <a routerLink="/" class="breadcrumb-link">Home</a>
+    <span class="breadcrumb-separator">›</span>
+    <a routerLink="/appliances" class="breadcrumb-link">Appliances</a>
+    <span class="breadcrumb-separator">›</span>
+    <a routerLink="/food-processor" class="breadcrumb-link">Food Processor</a>
+    <span class="breadcrumb-separator">›</span>
+    <span class="breadcrumb-current">{{ product()?.name }}</span>
+  </nav>
+
+  <div class="product-layout">
+    <!-- Product Images Section -->
+    <div class="product-images">
+      <!-- Main Image -->
+      <div class="main-image-container">
+        <img 
+          [src]="selectedImage()" 
+          [alt]="product()?.name"
+          class="main-image"
+          (error)="selectImage(0)"
+        />
+        
+        <!-- Image Navigation Arrows -->
+        <button 
+          *ngIf="product()?.images && product()!.images.length > 1"
+          (click)="previousImage()" 
+          class="image-nav prev-btn"
+          aria-label="Previous image"
+        >
+          ‹
+        </button>
+        <button 
+          *ngIf="product()?.images && product()!.images.length > 1"
+          (click)="nextImage()" 
+          class="image-nav next-btn"
+          aria-label="Next image"
+        >
+          ›
+        </button>
+      </div>
+
+      <!-- Thumbnail Images -->
+      <div *ngIf="product()?.images && product()!.images.length > 1" class="thumbnail-container">
+        <button
+          *ngFor="let image of product()?.images; let i = index"
+          (click)="selectImage(i)"
+          class="thumbnail-btn"
+          [class.active]="selectedImageIndex() === i"
+        >
+          <img [src]="image" [alt]="'Product view ' + (i + 1)" class="thumbnail-image" />
+        </button>
+      </div>
+    </div>
+
+    <!-- Product Information Section -->
+    <div class="product-info">
+      <h1 class="product-title">{{ product()?.name }}</h1>
+      
+      <!-- Price Section -->
+      <div class="price-section">
+        <span class="price">{{ totalPrice() | currency:'EGP':'symbol':'1.0-0' }}</span>
+        <span *ngIf="product()?.vatIncluded" class="vat-info">Vat Included</span>
+      </div>
+
+      <!-- Category and Brand -->
+      <div class="product-meta">
+        <div class="meta-item">
+          <span class="meta-label">Category:</span>
+          <a [routerLink]="['/category', product()?.category]" class="meta-link">
+            {{ product()?.category }}
+          </a>
+        </div>
+        <div class="meta-item">
+          <span class="meta-label">Brand:</span>
+          <a [routerLink]="['/brand', product()?.brand]" class="meta-link">
+            {{ product()?.brand }}
+          </a>
+        </div>
+      </div>
+
+      <!-- Made to Order Info -->
+      <div *ngIf="product()?.madeToOrder && deliveryDateRange()" class="delivery-info">
+        <div class="delivery-badge">
+          <span class="badge-icon">🕒</span>
+          <span class="badge-text">Made to Order</span>
+        </div>
+        <p class="delivery-text">
+          Delivery by {{ deliveryDateRange()?.min }} - {{ deliveryDateRange()?.max }}
+        </p>
+      </div>
+
+      <!-- Quantity Selection -->
+      <div class="quantity-section">
+        <label class="quantity-label">Quantity</label>
+        <div class="quantity-controls">
+          <button 
+            (click)="decreaseQuantity()" 
+            class="quantity-btn"
+            [disabled]="quantity() <= 1"
+          >
+            −
+          </button>
+          <input 
+            type="number" 
+            [value]="quantity()" 
+            (input)="setQuantity(+$any($event.target).value)"
+            min="1"
+            class="quantity-input"
+          />
+          <button (click)="increaseQuantity()" class="quantity-btn">+</button>
+          <button (click)="addToWishlist()" class="wishlist-btn" title="Add to Wishlist">
+            ♡
+          </button>
+        </div>
+      </div>
+
+      <!-- Action Buttons -->
+      <div class="action-buttons">
+        <button (click)="addToCart()" class="btn-primary btn-add-cart">
+          Add to Cart
+        </button>
+        <button (click)="buyNow()" class="btn-secondary btn-buy-now">
+          Buy now
+        </button>
+      </div>
+
+      <!-- Professional Interior Design Section -->
+      <div class="promo-section">
+        <h3 class="promo-title">Transform Your Space with Professional Interior Design</h3>
+        <p class="promo-description">
+          Get expert help to create your dream interior. Designing with us is easier, faster, and more affordable.
+        </p>
+        <div class="promo-actions">
+          <button class="btn-promo">Request info</button>
+          <a href="#" class="promo-link">Learn more</a>
+        </div>
+      </div>
+
+      <!-- Product Details Sections -->
+      <div class="product-sections">
+        <!-- Description -->
+        <details class="product-section" open>
+          <summary class="section-header">Description</summary>
+          <div class="section-content">
+            <p>{{ product()?.description }}</p>
+          </div>
+        </details>
+
+        <!-- Product Specifications -->
+        <details class="product-section">
+          <summary class="section-header">Product Specifications</summary>
+          <div class="section-content">
+            <div class="specs-grid">
+              <div *ngFor="let spec of product()?.specs | keyvalue" class="spec-item">
+                <span class="spec-label">{{ spec.key }}:</span>
+                <span class="spec-value">{{ spec.value }}</span>
+              </div>
+            </div>
+          </div>
+        </details>
+
+        <!-- Additional Information -->
+        <details *ngIf="product()?.additionalInfo" class="product-section">
+          <summary class="section-header">Additional information</summary>
+          <div class="section-content">
+            <p>{{ product()?.additionalInfo }}</p>
+          </div>
+        </details>
+
+        <!-- Shipping & Return Policy -->
+        <details *ngIf="product()?.shippingReturn" class="product-section">
+          <summary class="section-header">Shipping & Return Policy</summary>
+          <div class="section-content">
+            <p>{{ product()?.shippingReturn }}</p>
+          </div>
+        </details>
+      </div>
+    </div>
+  </div>
+</div>
