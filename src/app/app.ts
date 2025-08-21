@@ -3,6 +3,8 @@ import { RouterOutlet } from '@angular/router';
 import { SignUp } from './features/auth/components/signup/signup';
 import { LoginComponent } from './features/auth/components/login/login';
 import { CartItemsComponent } from './features/cart/components/cart-items/cart-items';
+import { ReactiveFormsModule } from '@angular/forms';
+// import { EmailConfirmationComponent } from './features/auth/components/EmailConfirmation/EmailConfirmation.component';
 import { ProductDetailPageComponent } from './features/products/components/product-details/product-details';
 @Component({
   selector: 'app-root',
