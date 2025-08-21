@@ -27,4 +27,6 @@ export class LoginComponent {
     console.log('Password:', this.password);
     alert('Login Successful!');
   }
+
 }
+

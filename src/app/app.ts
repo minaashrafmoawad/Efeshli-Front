@@ -10,6 +10,7 @@ import { ProductDetailPageComponent } from './features/products/components/produ
   imports: [RouterOutlet, SignUp, LoginComponent, CartItemsComponent, ProductDetailPageComponent],
   templateUrl: './app.html',
   styleUrls: ['./app.css']
+
 })
 export class AppComponent {
   protected readonly title = signal('eFreshli-clone');

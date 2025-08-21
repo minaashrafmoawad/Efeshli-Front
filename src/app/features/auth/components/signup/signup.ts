@@ -36,6 +36,11 @@ export class SignUp {
   if (input) {
     input.type = input.type === 'password' ? 'text' : 'password';
   }
-}
+    if (field === 'password') {
+      this.showPassword = !this.showPassword;
+    } else if (field === 'confirmPassword') {
+      this.showConfirmPassword = !this.showConfirmPassword;
+    }
+  }
 
 }

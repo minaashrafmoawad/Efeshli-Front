@@ -11,11 +11,16 @@
       <!-- Social buttons -->
       <div class="social-buttons">
         <button class="social-btn google-btn">
+
           <img src="/assets/Google.png" alt="Google" />
           Continue with Google
         </button>
         <button class="social-btn facebook-btn">
           <img src="/assets/Facebook.png" alt="Facebook" />
+
+          
+         <!-- <img src="/images/facebock.png" alt="Facebook" /> -->
+
           Continue with Facebook
         </button>
       </div>
@@ -24,19 +29,24 @@
 
       <!-- Email -->
       <label>Email address <span class="required">*</span></label>
-      <input type="email" placeholder="Enter your email address" />
+      <input type="email" placeholder="Enter your email address" [(ngModel)]="email" />
+
 
       <!-- Password -->
       <label>Password <span class="required">*</span></label>
       <div class="password-wrapper">
-        <input type="password" placeholder="Enter your password" />
+
+        <input type="password" placeholder="Enter your password" [(ngModel)]="password" />
         <img src="/assets/Eye.png" alt="Toggle" class="eye-icon" />
+
       </div>
 
       <a href="#" class="forgot">Forgot password</a>
 
       <!-- Login button -->
-      <button class="login-btn">Sign in</button>
+
+      <button class="login-btn" (click)="onSubmit()">Sign in</button>
     </div>
   </div>
 </div>
+
