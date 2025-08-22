@@ -11,17 +11,17 @@ export class ProductService {
       {
         id: 1,
         slug: 'tornado-multifunction-hand-blender-thb-1000mkl',
-        name: 'TORNADO Multifunction Hand Blender, 1.5 Liter, 1000 Watt, Black - THB-1000MKL',
+        name: 'Mini Vintage Chair In Plywood & Pine Wood - Upholstered',
         brand: 'Tornado',
       category: 'Food Processor',
       price: 4367,
       currency: 'EGP',
       vatIncluded: true,
       images: [
-        'https://picsum.photos/seed/tornado1/1200/900',
-        'https://picsum.photos/seed/tornado2/1200/900',
-        'https://picsum.photos/seed/tornado3/1200/900',
-        'https://picsum.photos/seed/tornado4/1200/900',
+        '/assets/0.png',
+        '/assets/1.png',
+        '/assets/2.png',
+        '/assets/3.png',
       ],
       description:
         'High-performance multifunction hand blender with 1.5L bowl and 1000W motor for blending, chopping, and whisking.',
@@ -50,13 +50,13 @@ export class ProductService {
         currency: 'EGP',
         vatIncluded: true,
         images: [
-          'https://picsum.photos/seed/tornado1/1200/900',
-          'https://picsum.photos/seed/tornado2/1200/900',
-          'https://picsum.photos/seed/tornado3/1200/900',
-          'https://picsum.photos/seed/tornado4/1200/900',
+          './assets/chir2.png',
+          './assets/chir1.png',
+          './assets/chir2.png',
+          
         ],
         description:
-          'Brand: TORNADO Blender Type: Multifunction Hand Blender Capacity: 1.5 Liter Power: 1000 Watt Speeds: 1 Speed Turbo Speed Attachments:- Stainless steel whisk Stainless steel blade Plastic beaker 900 ML Food processor with weapons for cutting up and chopping 1.5 Liter Color: Black',
+          'Made out of pine and plywood and fully upholstered to guarantee both sturdiness and comfort.',
         specs: {
           Color_Ar: 'Black',
           Life_span: '1 Year',
@@ -75,6 +75,7 @@ export class ProductService {
       }
     ]
   }
+  
 
 getById(id:number):Iproduct | undefined {
     return this.data.find(x => x.id === id) as Iproduct;

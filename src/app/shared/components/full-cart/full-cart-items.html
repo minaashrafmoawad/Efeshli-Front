@@ -1,0 +1,128 @@
+<!-- shared/full-cart/full-cart.component.html -->
+<div class="cart-container">
+  <div class="cart-content">
+    <!-- Cart Header -->
+    <div class="cart-header">
+      <h1 class="cart-title">CART</h1>
+      <button class="download-btn" (click)="downloadCart()">
+        Download Cart
+      </button>
+    </div>
+
+    <!-- Cart Items -->
+    <div class="cart-items" *ngIf="cartItems.length > 0">
+      <div class="cart-item" *ngFor="let item of cartItems">
+        <div class="item-image">
+          <img src="assets/chir2.png" [alt]="item.name" />
+        </div>
+        
+        <div class="item-details">
+          <h3 class="item-name">{{ item.name }}</h3>
+          
+          <div class="ready-to-ship" *ngIf="item.readyToShip">
+  <img src="assets/truck.svg" alt="Truck" class="truck-icon" />
+  <span class="ready-text">Ready to Ship</span>
+</div>
+
+          
+          <p class="item-dimensions">{{ item.dimensions }}</p>
+          
+          <div class="item-options">
+            <div class="option">
+              <span class="label">Fabric</span>
+              <span class="value">: {{ item.fabric }}</span>
+              <div class="color-swatch" [style.background-color]="item.fabricColor"></div>
+            </div>
+            
+            <div class="option">
+              <span class="label">{{ item.wood }}</span>
+              <span class="value">: EI-M-07 / Natural Oak</span>
+              <div class="color-swatch" [style.background-color]="item.woodColor"></div>
+            </div>
+
+            <div class="option">
+              <span class="label">Color</span>
+              <span class="value">: Natural Oak</span>
+              <div class="color-swatch" [style.background-color]="item.woodColor"></div>
+            </div>
+          </div>
+        </div>
+        
+        <div class="item-controls">
+          <div class="quantity-section">
+            <label class="quantity-label">Quantity</label>
+            <div class="quantity-input">
+              <button class="qty-btn" (click)="updateQuantity(item, item.quantity - 1)">−</button>
+              <input type="number" [(ngModel)]="item.quantity" min="1" class="qty-value">
+              <button class="qty-btn" (click)="updateQuantity(item, item.quantity + 1)">+</button>
+            </div>
+          </div>
+          
+          <div class="price-section">
+            <span class="price">{{ item.price * item.quantity | number:'1.0-0' }}</span>
+            <span class="currency">EGP</span>
+          </div>
+          
+          <button class="remove-btn" (click)="removeItem(item.id)">
+            Remove 🗑️
+          </button>
+        </div>
+      </div>
+    </div>
+
+    <!-- Empty Cart Message -->
+    <div class="empty-cart" *ngIf="cartItems.length === 0">
+      <p>Your cart is empty</p>
+    </div>
+  </div>
+
+  <!-- Cart Summary Sidebar -->
+  <div class="cart-summary">
+    <div class="summary-box">
+      <h2 class="summary-title">Cart Summary</h2>
+      
+      <div class="summary-item" *ngFor="let item of cartItems">
+        <span class="summary-item-name">{{ item.name }}</span>
+        <span class="summary-item-price">{{ item.price * item.quantity | number:'1.0-0' }} EGP</span>
+      </div>
+      
+      <div class="summary-calculations">
+        <div class="summary-row">
+          <span class="label">Subtotal</span>
+          <span class="value">{{ subtotal | number:'1.0-0' }} EGP</span>
+        </div>
+        
+        <div class="summary-row vat-row">
+          <span class="label">VAT ({{ vatRate }}%)</span>
+          <span class="value included">Included in the products</span>
+        </div>
+        
+        <div class="summary-row">
+          <span class="label">Shipping</span>
+          <span class="value">{{ shippingMessage }}</span>
+        </div>
+        
+        <div class="summary-row total-row">
+          <span class="label">Total</span>
+          <span class="value">{{ total | number:'1.0-0' }} EGP</span>
+        </div>
+      </div>
+      
+      <button class="checkout-btn" (click)="proceedToCheckout()">
+        Proceed To Checkout
+      </button>
+    </div>
+    
+    <div class="help-section">
+      <p class="help-text">Need some help? We got you.</p>
+      <div class="contact-options">
+        <button class="contact-btn phone" (click)="contactSupport('phone')">
+          📞 +20 100 074 8719
+        </button>
+        <button class="contact-btn email" (click)="contactSupport('email')">
+          ✉️ hello@efreshii.com
+        </button>
+      </div>
+    </div>
+  </div>
+</div>

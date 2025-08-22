@@ -1,3 +1,5 @@
+
+// main.ts
 import { bootstrapApplication } from '@angular/platform-browser';
 import { AppComponent } from './app/app';
 import { appRouterProviders } from './app/app.routes';
@@ -6,11 +8,8 @@ import { provideRouter } from '@angular/router';
 import { routes } from './app/app.routes';
 
 bootstrapApplication(AppComponent, {
-  providers: [appRouterProviders]
-});
-
-bootstrapApplication(undefined as any, {
   providers: [
+    appRouterProviders,
     provideHttpClient(),
     provideRouter(routes),
   ],

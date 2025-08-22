@@ -27,6 +27,41 @@ export class ProductDetailPageComponent implements OnInit {
   selectedImageIndex = signal(0);
   quantity = signal(1);
 
+  // Selection state for options
+  selectedFabricIndex = signal<number>(2); // Default: Mint Blue Linen
+  selectedWoodIndex = signal<number>(3);   // Default: EI-M-07/ Natural Oak  
+  selectedColorIndex = signal<number>(2);  // Default: Mint Blue
+
+  // Fabric options data
+  fabricOptions = [
+    { name: 'Silver Mist', color: '#d3d3d3' },
+    { name: 'Textured Baby Blue', color: '#87ceeb' },
+    { name: 'Mint Blue Linen', color: '#a3c9a8' },
+    { name: 'Plain Grey', color: '#708090' },
+    { name: 'Honey Linen', color: '#d2b48c' },
+    { name: 'Boize - Cute Fabric', color: '#5c4033' }
+  ];
+
+  // Wood options data
+  woodOptions = [
+    { name: 'EI-M-03', color: '#f5f5dc' },
+    { name: 'EI-M-04/ Warm Oak', color: '#8b4513' },
+    { name: 'EI-M-06/ Black Wash', color: '#3c2f2f' },
+    { name: 'EI-M-07/ Natural Oak', color: '#cd853f' },
+    { name: 'Light Oak', color: '#f0e68c' },
+    { name: 'EI-M-13/ Beige', color: '#f4a460' }
+  ];
+
+  // Color options data
+  colorOptions = [
+    { name: 'Silver Mist', color: '#d3d3d3' },
+    { name: 'Textured Baby Blue', color: '#87ceeb' },
+    { name: 'Mint Blue', color: '#a3c9a8' },
+    { name: 'Plain Grey', color: '#708090' },
+    { name: 'Honey Linen', color: '#d2b48c' },
+    { name: 'Boize - Cute Fabric', color: '#5c4033' }
+  ];
+
   // Computed values
   selectedImage = computed(() => {
     const prod = this.product();
@@ -103,21 +138,45 @@ export class ProductDetailPageComponent implements OnInit {
     }
   }
 
-  nextImage() {
-    const prod = this.product();
-    if (prod) {
-      const currentIndex = this.selectedImageIndex();
-      const nextIndex = (currentIndex + 1) % prod.images.length;
-      this.selectedImageIndex.set(nextIndex);
-    }
+  nextImage(): void {
+    if (!this.product()?.images || this.product()!.images.length <= 1) return;
+    
+    const currentIndex = this.selectedImageIndex();
+    const newIndex = currentIndex < this.product()!.images.length - 1 ? currentIndex + 1 : 0;
+    this.selectImage(newIndex);
   }
 
-  previousImage() {
-    const prod = this.product();
-    if (prod) {
-      const currentIndex = this.selectedImageIndex();
-      const prevIndex = currentIndex === 0 ? prod.images.length - 1 : currentIndex - 1;
-      this.selectedImageIndex.set(prevIndex);
+  previousImage(): void {
+    if (!this.product()?.images || this.product()!.images.length <= 1) return;
+    
+    const currentIndex = this.selectedImageIndex();
+    const newIndex = currentIndex > 0 ? currentIndex - 1 : this.product()!.images.length - 1;
+    this.selectImage(newIndex);
+  }
+
+  // Keyboard navigation for images
+  onImageKeydown(event: KeyboardEvent): void {
+    if (!this.product()?.images || this.product()!.images.length <= 1) {
+      return;
+    }
+
+    switch (event.key) {
+      case 'ArrowLeft':
+        event.preventDefault();
+        this.previousImage();
+        break;
+      case 'ArrowRight':
+        event.preventDefault();
+        this.nextImage();
+        break;
+      case 'ArrowUp':
+        event.preventDefault();
+        this.previousImage();
+        break;
+      case 'ArrowDown':
+        event.preventDefault();
+        this.nextImage();
+        break;
     }
   }
 
@@ -134,6 +193,22 @@ export class ProductDetailPageComponent implements OnInit {
     if (value >= 1) {
       this.quantity.set(value);
     }
+  }
+
+  // Selection methods for options
+  selectFabric(index: number) {
+    this.selectedFabricIndex.set(index);
+    console.log('Selected fabric:', this.fabricOptions[index].name);
+  }
+
+  selectWood(index: number) {
+    this.selectedWoodIndex.set(index);
+    console.log('Selected wood:', this.woodOptions[index].name);
+  }
+
+  selectColor(index: number) {
+    this.selectedColorIndex.set(index);
+    console.log('Selected color:', this.colorOptions[index].name);
   }
 
   // Actions

@@ -1,0 +1,479 @@
+.cart-container {
+  display: flex;
+  min-height: 100vh;
+  background-color: #ffffff;
+  font-family: 'Arial', sans-serif;
+}
+
+.cart-content {
+  flex: 1;
+  padding: 2rem;
+  max-width: calc(100% - 420px); /* تعديل العرض ليتوافق مع زيادة عرض cart-summary */
+  background-color: white;
+}
+
+.cart-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 2rem;
+  padding-bottom: 1rem;
+  border-bottom: 1px solid #e9ecef;
+}
+
+.cart-title {
+  font-size: 1.5rem;
+  font-weight: bold;
+  color: #212529;
+  margin: 0;
+}
+
+.download-btn {
+  background-color: transparent;
+  border: 2px solid #dc3545;
+  color: #dc3545;
+  padding: 0.75rem 1.5rem;
+  border-radius: 6px;
+  font-weight: 500;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.download-btn:hover {
+  background-color: #dc3545;
+  color: white;
+}
+
+.cart-items {
+  display: flex;
+  flex-direction: column;
+  gap: 2rem;
+}
+
+.cart-item {
+  display: flex;
+  background-color: white;
+  border-radius: 12px;
+  padding: 1.5rem;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+  gap: 2rem;
+}
+
+.item-image {
+  flex-shrink: 0;
+  width: 120px;
+  height: 120px;
+}
+
+.item-image img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  border-radius: 8px;
+  background-color: #e3f2fd;
+}
+
+.item-details {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+}
+
+.item-name {
+  font-size: 1rem;
+  font-weight: 600;
+  color: #212529;
+  margin: 0;
+  line-height: 1.4;
+}
+
+.ready-to-ship {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  font-size: 0.9rem;
+  color: #212529;
+}
+
+.ready-to-ship .truck-icon {
+  font-size: 1rem;
+  width: 20px;
+  height: 20px;
+  background-color: #f8f9fa;
+  border: 1px solid #dee2e6;
+  border-radius: 4px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.item-dimensions {
+  font-size: 0.9rem;
+  color: #6c757d;
+  margin: 0;
+}
+
+.item-options {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+.option {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  font-size: 0.9rem;
+  padding-bottom: 0.5rem;
+  border-bottom: 1px solid #f8f9fa;
+}
+
+.option:last-child {
+  border-bottom: none;
+}
+
+.option .label {
+  font-weight: bold;
+  color: #495057;
+}
+
+.option .value {
+  color: #6c757d;
+}
+
+.option .color-swatch {
+  width: 20px;
+  height: 20px;
+  border-radius: 4px;
+  border: 1px solid #dee2e6;
+  flex-shrink: 0;
+}
+
+.item-controls {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start; /* العناصر جوا الصندوق تبقى شمال */
+  gap: 1rem;
+  min-width: 200px;
+  /* نحرك الصندوق نفسه شمال وتحت */
+  position: relative;
+  left: -150px; /* غيّري الرقم حسب ما تحبي */
+  top: 19px;   /* القيمة دي تخليه ينزل لتحت */
+}
+
+
+
+.quantity-section {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  gap: 0.5rem;
+}
+
+.quantity-label {
+  font-size: 0.9rem;
+  color: #000000;
+  font-weight: 500;
+}
+
+.quantity-input {
+  display: flex;
+  border: 1px solid #dee2e6;
+  border-radius: 6px;
+  overflow: hidden;
+}
+
+.quantity-input .qty-btn {
+  background-color: #f8f9fa;
+  border: none;
+  padding: 0.5rem 0.75rem;
+  cursor: pointer;
+  color: #495057;
+  font-size: 1.2rem;
+  transition: background-color 0.2s;
+}
+
+.quantity-input .qty-btn:hover {
+  background-color: #e9ecef;
+}
+
+.quantity-input .qty-value {
+  border: none;
+  padding: 0.5rem;
+  width: 60px;
+  text-align: center;
+  font-size: 1rem;
+}
+
+.quantity-input .qty-value:focus {
+  outline: none;
+  background-color: #f8f9fa;
+}
+
+.price-section {
+  display: flex;
+  align-items: baseline;
+  gap: 0.5rem;
+  position: relative;  /* عشان نقدر نحركه */
+  right: -250px;        /* يروح يمين */
+  top: -50px;          /* يطلع لفوق */
+}
+
+
+.price-section .price {
+  font-size: 1.5rem;
+  font-weight: bold;
+  color: #212529;
+}
+
+.price-section .currency {
+  font-size: 1rem;
+  color: #6c757d;
+  font-weight: 500;
+}
+
+.remove-btn {
+  background: none;
+  border: none;
+  color: #000;            /* خليت اللون أسود */
+  font-size: 0.9rem;
+  cursor: pointer;
+  text-decoration: none;  /* شيلنا الخط اللي تحتها */
+  padding: 0;
+
+  position: relative;     
+  right: -250px;           /* تتحرك يمين شوية */
+  top: -70px;              /* تطلع فوق سنة */
+}
+
+
+.remove-btn:hover {
+  color: #dc3545;
+}
+
+.empty-cart {
+  text-align: center;
+  padding: 3rem;
+  color: #6c757d;
+  font-size: 1.1rem;
+}
+
+/* ملخص السلة - زيادة العرض بمقدار 20px ليصبح 420px */
+.cart-summary {
+  width: 480px; /* زيادة العرض من 400px إلى 420px */
+  padding: 2rem;
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+  background-color: #ffffff;
+}
+
+.summary-box {
+  background-color: #f8f9fa;
+  border: 1px solid #dee2e6;
+  border-radius: 8px;
+  padding: 1.5rem 2rem;
+}
+
+.summary-title {
+  font-size: 1.2rem;
+  font-weight: 600;
+  color: #212529;
+  margin: 0 0 1rem 0;
+  padding-bottom: 1rem;
+  border-bottom: 1px solid #dee2e6;
+}
+
+.summary-item {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  gap: 1rem;
+  padding-bottom: 1rem;
+  border-bottom: 1px solid #dee2e6;
+}
+
+.summary-item .summary-item-name {
+  font-size: 0.85rem;
+  color: #495057;
+  line-height: 1.4;
+  font-weight:600;
+
+}
+
+ .summary-item-price {
+  
+  color: #212529;
+  white-space: nowrap;
+  font-size: 0.85rem;
+}
+
+.summary-calculations {
+  padding-top: 1rem;
+}
+
+.summary-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 1rem;
+  padding-bottom: 1rem;
+  border-bottom: 1px solid #dee2e6;
+}
+
+.summary-row:last-child {
+  border-bottom: none;
+  margin-bottom: 0;
+  padding-bottom: 0;
+}
+
+.summary-row .label {
+  color: #495057;
+  font-weight: 500;
+  font-size: 0.85rem;
+  font-weight:600;
+}
+
+.summary-row .value {
+  color: #212529;
+
+  font-size: 0.85rem;
+}
+
+.summary-row .value.included {
+  font-size: 0.75rem;
+  color: #101011;
+  font-weight: normal;
+}
+
+.summary-row.vat-row .label {
+  font-size: 0.85rem;
+}
+
+.summary-row.total-row .label,
+.summary-row.total-row .value {
+  font-size: 1rem;
+  font-weight: bold;
+}
+
+.checkout-btn {
+  width: 100%;
+  background-color: #dc3545;
+  color: white;
+  border: none;
+  padding:0.41rem 2rem;
+  border-radius: 8px;
+  font-size: 1rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background-color 0.2s;
+  margin-top: 1rem;
+}
+
+.checkout-btn:hover {
+  background-color: #c82333;
+}
+
+/* قسم المساعدة - زيادة العرض مع الحفاظ على التناسق مع cart-summary */
+.help-section {
+  background-color: #ffffff;
+  border: 1px solid #dee2e6;
+  border-radius: 8px;
+  padding: 1.5rem 2rem;
+}
+
+.help-text {
+  font-size: 0.9rem;
+  color: #495057;
+  font-weight: bold;
+  margin: 0 0 1rem 0;
+}
+
+.contact-options {
+  display: flex;
+  flex-direction: row;
+  gap: 1.5rem;
+  flex-wrap: wrap;
+}
+
+.contact-btn {
+  background: none;
+  border: none;
+  color: #495057;
+  font-size: 0.8rem;
+  cursor: pointer;
+  text-align: left;
+  padding: 0;
+  text-decoration: none;
+  transition: color 0.2s;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.contact-btn:hover {
+  color: #007bff;
+}
+
+/* Responsive Design */
+@media (max-width: 1024px) {
+  .cart-container {
+    flex-direction: column;
+  }
+  
+  .cart-content {
+    max-width: 100%;
+  }
+  
+  .cart-summary {
+    width: 100%;
+  }
+  
+  .cart-item {
+    flex-direction: column;
+    gap: 1rem;
+  }
+  
+  .item-controls {
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+    width: 100%;
+  }
+  
+  .quantity-section {
+    align-items: flex-start;
+  }
+}
+
+@media (max-width: 768px) {
+  .cart-content,
+  .cart-summary {
+    padding: 1rem;
+  }
+  
+  .cart-header {
+    flex-direction: column;
+    gap: 1rem;
+    align-items: flex-start;
+  }
+  
+  .cart-title {
+    font-size: 1.5rem;
+  }
+  
+  .item-image {
+    width: 80px;
+    height: 80px;
+  }
+  
+  .contact-options {
+    flex-direction: column;
+    gap: 0.75rem;
+  }
+  
+  .contact-options .contact-btn {
+    font-size: 0.8rem;
+  }
+}
