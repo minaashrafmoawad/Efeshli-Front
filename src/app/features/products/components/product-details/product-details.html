@@ -19,9 +19,9 @@
   <nav class="breadcrumb">
     <a routerLink="/" class="breadcrumb-link">Home</a>
     <span class="breadcrumb-separator">›</span>
-    <a routerLink="/appliances" class="breadcrumb-link">Appliances</a>
+    <a routerLink="/appliances" class="breadcrumb-link">Living Room</a>
     <span class="breadcrumb-separator">›</span>
-    <a routerLink="/food-processor" class="breadcrumb-link">Food Processor</a>
+    <a routerLink="/food-processor" class="breadcrumb-link">Accent & Arm Chairs</a>
     <span class="breadcrumb-separator">›</span>
     <span class="breadcrumb-current">{{ product()?.name }}</span>
   </nav>
@@ -29,6 +29,9 @@
   <div class="product-layout">
     <!-- Product Images Section -->
     <div class="product-images">
+      <!-- Stock Badge -->
+      <div class="stock-badge">1 in Stock</div>
+      
       <!-- Main Image -->
       <div class="main-image-container">
         <img 
@@ -36,25 +39,10 @@
           [alt]="product()?.name"
           class="main-image"
           (error)="selectImage(0)"
+          (keydown)="onImageKeydown($event)"
+          tabindex="0"
+          autofocus
         />
-        
-        <!-- Image Navigation Arrows -->
-        <button 
-          *ngIf="product()?.images && product()!.images.length > 1"
-          (click)="previousImage()" 
-          class="image-nav prev-btn"
-          aria-label="Previous image"
-        >
-          ‹
-        </button>
-        <button 
-          *ngIf="product()?.images && product()!.images.length > 1"
-          (click)="nextImage()" 
-          class="image-nav next-btn"
-          aria-label="Next image"
-        >
-          ›
-        </button>
       </div>
 
       <!-- Thumbnail Images -->
@@ -67,6 +55,16 @@
         >
           <img [src]="image" [alt]="'Product view ' + (i + 1)" class="thumbnail-image" />
         </button>
+      </div>
+      
+      <!-- Fast Delivery Badge -->
+      <div class="fast-delivery-badge">
+        <div class="delivery-arrows">
+          <span class="arrow"></span>
+          <span class="arrow"></span>
+          <span class="arrow"></span>
+        </div>
+        
       </div>
     </div>
 
@@ -83,13 +81,13 @@
       <!-- Category and Brand -->
       <div class="product-meta">
         <div class="meta-item">
-          <span class="meta-label">Category:</span>
+          <span class="meta-label">Category</span>
           <a [routerLink]="['/category', product()?.category]" class="meta-link">
             {{ product()?.category }}
           </a>
         </div>
         <div class="meta-item">
-          <span class="meta-label">Brand:</span>
+          <span class="meta-label">Brand</span>
           <a [routerLink]="['/brand', product()?.brand]" class="meta-link">
             {{ product()?.brand }}
           </a>
@@ -99,8 +97,8 @@
       <!-- Made to Order Info -->
       <div *ngIf="product()?.madeToOrder && deliveryDateRange()" class="delivery-info">
         <div class="delivery-badge">
-          <span class="badge-icon">🕒</span>
-          <span class="badge-text">Made to Order</span>
+          <img src="assets/CorrectDelivery.png" alt="order icon" class="badge-icon" />
+          <span class="badge-text">Made to Order:</span>
         </div>
         <p class="delivery-text">
           Delivery by {{ deliveryDateRange()?.min }} - {{ deliveryDateRange()?.max }}
@@ -116,8 +114,9 @@
             class="quantity-btn"
             [disabled]="quantity() <= 1"
           >
-            −
+            <img src="assets/imgi_35_default.png" alt="minus" class="icon" />
           </button>
+
           <input 
             type="number" 
             [value]="quantity()" 
@@ -125,9 +124,13 @@
             min="1"
             class="quantity-input"
           />
-          <button (click)="increaseQuantity()" class="quantity-btn">+</button>
+
+          <button (click)="increaseQuantity()" class="quantity-btn">
+            <img src="assets/imgi_36_default.png" alt="plus" class="icon" />
+          </button>
+
           <button (click)="addToWishlist()" class="wishlist-btn" title="Add to Wishlist">
-            ♡
+            <img src="assets/imgi_31_default.png" alt="wishlist" class="icon heart" />
           </button>
         </div>
       </div>
@@ -140,6 +143,120 @@
         <button (click)="buyNow()" class="btn-secondary btn-buy-now">
           Buy now
         </button>
+      </div>
+
+      <!-- Product Options Section -->
+      <div class="product-options">
+        <!-- Small Product Preview -->
+        <div class="small-product-preview">
+          <div class="preview-container">
+            <!-- علامة الصح الحمراء -->
+            <div class="check-badge">
+              <span class="check-icon">✓</span>
+            </div>
+            
+            <img src="{{ selectedImage() }}" alt="{{ product()?.name }}" class="small-preview-image" />
+            <div class="color-indicator-stack">
+              <div class="color-dot" style="background-color: #5c4033;"></div>
+              <div class="color-dot" style="background-color: #a3c9a8;"></div>
+              <div class="color-dot active" style="background-color: #87ceeb;"></div>
+            </div>
+          </div>
+        </div>
+
+
+        <!-- Fabric Options -->
+        <div class="option-section">
+          <div class="option-header">
+            <span class="option-title">Fabric</span>
+            <span class="option-selected">Mint Blue Linen</span>
+            <div class="selected-color-dot" style="background-color: #a3c9a8;"></div>
+          </div>
+          <div class="swatch-scroll-container">
+            <div class="swatch-container">
+              <div class="fabric-swatch" style="background-color: #d3d3d3;" title="Silver Mist" (click)="selectFabric(0)">
+                <span class="swatch-label">Silver Mist</span>
+              </div>
+              <div class="fabric-swatch" style="background-color: #87ceeb;" title="Textured Baby Blue" (click)="selectFabric(1)">
+                <span class="swatch-label">Textured Baby Blue</span>
+              </div>
+              <div class="fabric-swatch active" style="background-color: #a3c9a8;" title="Mint Blue Linen" (click)="selectFabric(2)">
+                <span class="swatch-label">Mint Blue Linen</span>
+              </div>
+              <div class="fabric-swatch" style="background-color: #708090;" title="Plain Grey" (click)="selectFabric(3)">
+                <span class="swatch-label">Plain Grey</span>
+              </div>
+              <div class="fabric-swatch" style="background-color: #d2b48c;" title="Honey Linen" (click)="selectFabric(4)">
+                <span class="swatch-label">Honey Linen</span>
+              </div>
+              <div class="fabric-swatch" style="background-color: #5c4033;" title="Boize - Cute Fabric" (click)="selectFabric(5)">
+                <span class="swatch-label">Boize - Cute Fabric</span>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Wood Options -->
+        <div class="option-section">
+          <div class="option-header">
+            <span class="option-title">Ebony & Ivory Massive.</span>
+            <span class="option-selected">EI-M-07/ Natural Oak</span>
+            <div class="selected-color-dot" style="background-color: #cd853f;"></div>
+          </div>
+          <div class="swatch-scroll-container">
+            <div class="swatch-container">
+              <div class="wood-swatch" style="background-color: #f5f5dc;" title="EI-M-03" (click)="selectWood(0)">
+                <span class="swatch-label">EI-M-03</span>
+              </div>
+              <div class="wood-swatch" style="background-color: #8b4513;" title="EI-M-04/ Warm Oak" (click)="selectWood(1)">
+                <span class="swatch-label">EI-M-04/ Warm Oak</span>
+              </div>
+              <div class="wood-swatch" style="background-color: #3c2f2f;" title="EI-M-06/ Black Wash" (click)="selectWood(2)">
+                <span class="swatch-label">EI-M-06/ Black Wash</span>
+              </div>
+              <div class="wood-swatch active" style="background-color: #cd853f;" title="EI-M-07/ Natural Oak" (click)="selectWood(3)">
+                <span class="swatch-label">EI-M-07/ Natural Oak</span>
+              </div>
+              <div class="wood-swatch" style="background-color: #f0e68c;" title="Light Oak" (click)="selectWood(4)">
+                <span class="swatch-label">Light Oak</span>
+              </div>
+              <div class="wood-swatch" style="background-color: #f4a460;" title="EI-M-13/ Beige" (click)="selectWood(5)">
+                <span class="swatch-label">EI-M-13/ Beige</span>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Color Options -->
+        <div class="option-section">
+          <div class="option-header">
+            <span class="option-title">Color</span>
+            <span class="option-selected">Mint Blue</span>
+            <div class="selected-color-dot" style="background-color: #a3c9a8;"></div>
+          </div>
+          <div class="swatch-scroll-container">
+            <div class="swatch-container">
+              <div class="color-swatch" style="background-color: #d3d3d3;" title="Silver Mist" (click)="selectColor(0)">
+                <span class="swatch-label">Silver Mist</span>
+              </div>
+              <div class="color-swatch" style="background-color: #87ceeb;" title="Textured Baby Blue" (click)="selectColor(1)">
+                <span class="swatch-label">Textured Baby Blue</span>
+              </div>
+              <div class="color-swatch active" style="background-color: #a3c9a8;" title="Mint Blue" (click)="selectColor(2)">
+                <span class="swatch-label">Mint Blue</span>
+              </div>
+              <div class="color-swatch" style="background-color: #708090;" title="Plain Grey" (click)="selectColor(3)">
+                <span class="swatch-label">Plain Grey</span>
+              </div>
+              <div class="color-swatch" style="background-color: #d2b48c;" title="Honey Linen" (click)="selectColor(4)">
+                <span class="swatch-label">Honey Linen</span>
+              </div>
+              <div class="color-swatch" style="background-color: #5c4033;" title="Boize - Cute Fabric" (click)="selectColor(5)">
+                <span class="swatch-label">Boize - Cute Fabric</span>
+              </div>
+            </div>
+          </div>
+        </div>
       </div>
 
       <!-- Professional Interior Design Section -->

@@ -1,54 +1,148 @@
-import { Injectable } from '@angular/core';
+// web/src/app/core/services/auth.service.ts
+import { Injectable, signal } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
-import { Observable, map } from 'rxjs';
+import { BehaviorSubject, Observable, tap } from 'rxjs';
+import { environment } from '../../../environments/environment';
 
-export interface RegisterDto {
+export interface User {
+  id: string;
+  email: string;
+  firstName: string;
+  lastName: string;
+  roles: string[];
+}
+
+export interface ApiResponse<T = any> {
+  statusCode: number;
+  succeeded: boolean;
+  message: string;
+  errors: string[] | null;
+  data: T;
+}
+
+export interface LoginResponse {
+  token: string;
+}
+
+export interface RegisterResponse {
+  message: string;
+}
+
+export interface LoginRequest {
+  email: string;
+  password: string;
+}
+
+export interface RegisterRequest {
   firstName: string;
   lastName: string;
   email: string;
-  phoneNumber: string;   
+  phoneNumber: string;
   password: string;
   confirmPassword: string;
 }
 
-export interface LoginDto {
+export interface ForgotPasswordRequest {
   email: string;
-  password: string;
 }
 
-@Injectable({
-  providedIn: 'root'
-})
+export interface ResetPasswordRequest {
+  email: string;
+  token: string;
+  newPassword: string;
+  confirmPassword: string;
+}
+
+@Injectable({ providedIn: 'root' })
 export class AuthService {
-  private apiUrl = 'http://localhost:5104/api/Auth'; // backend base URL
+  private readonly apiUrl = `${environment.apiUrl}/auth`;
+  private currentUserSubject = new BehaviorSubject<User | null>(null);
+  public currentUser$ = this.currentUserSubject.asObservable();
 
-  constructor(private http: HttpClient) {}
+  constructor(private http: HttpClient) {
+    this.initializeAuthState();
+  }
 
-  register(model: RegisterDto): Observable<string> {
-    return this.http.post<{ token: string }>(`${this.apiUrl}/register`, model)
+  private initializeAuthState(): void {
+    const token = localStorage.getItem('token');
+    if (token) {
+      const user = this.decodeToken(token);
+      this.currentUserSubject.next(user);
+    }
+  }
+
+  login(credentials: LoginRequest): Observable<ApiResponse<string>> {
+    return this.http.post<ApiResponse<string>>(`${this.apiUrl}/login`, credentials)
       .pipe(
-        map(response => {
-          localStorage.setItem('token', response.token);
-          return response.token;
+        tap(response => {
+          if (response.succeeded && response.data) {
+            this.setAuthState(response.data); // response.data contains the token
+          }
         })
       );
   }
 
-  login(model: LoginDto): Observable<string> {
-    return this.http.post<{ token: string }>(`${this.apiUrl}/login`, model)
-      .pipe(
-        map(response => {
-          localStorage.setItem('token', response.token);
-          return response.token;
-        })
-      );
+  register(userData: RegisterRequest): Observable<ApiResponse<string>> {
+    return this.http.post<ApiResponse<string>>(`${this.apiUrl}/register`, userData);
   }
 
-  logout() {
+  forgotPassword(request: ForgotPasswordRequest): Observable<ApiResponse<any>> {
+    return this.http.post<ApiResponse<any>>(`${this.apiUrl}/forgot-password`, request);
+  }
+
+  resetPassword(request: ResetPasswordRequest): Observable<ApiResponse<any>> {
+    return this.http.post<ApiResponse<any>>(`${this.apiUrl}/reset-password`, request);
+  }
+
+  logout(): void {
     localStorage.removeItem('token');
+    this.currentUserSubject.next(null);
   }
 
-  getToken(): string | null {
-    return '';
+  isAuthenticated(): boolean {
+    const token = localStorage.getItem('token');
+    if (!token) return false;
+    
+    try {
+      const payload = JSON.parse(atob(token.split('.')[1]));
+      return payload.exp * 1000 > Date.now();
+    } catch (e) {
+      return false;
+    }
   }
+
+  getCurrentUser(): User | null {
+    return this.currentUserSubject.value;
+  }
+
+  private setAuthState(token: string): void {
+    localStorage.setItem('token', token);
+    const user = this.decodeToken(token);
+    this.currentUserSubject.next(user);
+  }
+
+  private decodeToken(token: string): User {
+    try {
+      const payload = JSON.parse(atob(token.split('.')[1]));
+      return {
+        id: payload.sub || payload['http://schemas.xmlsoap.org/ws/2005/05/identity/claims/nameidentifier'],
+        email: payload.email || payload['http://schemas.xmlsoap.org/ws/2005/05/identity/claims/emailaddress'],
+        firstName: payload.given_name || payload.fullName?.split(' ')[0] || '',
+        lastName: payload.family_name || payload.fullName?.split(' ')[1] || '',
+        roles: Array.isArray(payload.role) ? payload.role : [payload.role].filter(Boolean) || []
+      };
+    } catch (e) {
+      console.error('Failed to decode token:', e);
+      return {
+        id: '',
+        email: '',
+        firstName: '',
+        lastName: '',
+        roles: []
+      };
+    }
+  }
+
+
+  
 }

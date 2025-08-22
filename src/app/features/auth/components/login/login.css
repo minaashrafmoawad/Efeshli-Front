@@ -10,7 +10,6 @@
 
   background-image: url('/assets/Background.png');
 
- // background-image: url('/images/backgrond.png');
 
   background-size: cover;
   background-position: center;
@@ -163,3 +162,29 @@ margin: 8px 0;
   }
 }
 
+/* messagrs */
+.error {
+      border-color: #dc3545 !important;
+    }
+    
+    .error-text {
+      color: #dc3545;
+      font-size: 12px;
+      margin-top: 4px;
+      min-height: 16px;
+    }
+    
+    .server-error {
+      color: #dc3545;
+      text-align: center;
+      margin-top: 15px;
+      padding: 10px;
+      background: #f8d7da;
+      border: 1px solid #f5c6cb;
+      border-radius: 4px;
+    }
+    
+    .login-btn:disabled {
+      opacity: 0.6;
+      cursor: not-allowed;
+    }

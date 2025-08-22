@@ -6,7 +6,7 @@
   <div class="login-form-container">
     <div class="login-card">
       <h2>Sign in</h2>
-      <p>Don't have account? <a href="#">Sign up</a></p>
+      <p>Don't have account? <a routerLink="/signup">Sign up</a></p>
 
       <!-- Social buttons -->
       <div class="social-buttons">
@@ -27,25 +27,58 @@
 
       <div class="divider"><span>or</span></div>
 
-      <!-- Email -->
-      <label>Email address <span class="required">*</span></label>
-      <input type="email" placeholder="Enter your email address" [(ngModel)]="email" />
-
-
-      <!-- Password -->
-      <label>Password <span class="required">*</span></label>
-      <div class="password-wrapper">
-
-        <input type="password" placeholder="Enter your password" [(ngModel)]="password" />
-        <img src="/assets/Eye.png" alt="Toggle" class="eye-icon" />
-
+     
+<form [formGroup]="loginForm" (ngSubmit)="onSubmit()" class="login-form">
+      <div class="form-group">
+        <label>Email address <span class="required">*</span></label>
+        <input 
+          type="email" 
+          placeholder="Enter your email" 
+          formControlName="email"
+          [class.error]="email.invalid && (email.dirty || email.touched)"
+        >
+        <div class="error-text" *ngIf="email.invalid && (email.dirty || email.touched)">
+          <span *ngIf="email.errors?.['required']">Email is required</span>
+          <span *ngIf="email.errors?.['email']">Invalid email format</span>
+        </div>
       </div>
 
-      <a href="#" class="forgot">Forgot password</a>
+      <div class="form-group">
+        <label>Password <span class="required">*</span></label>
+        <div class="password-wrapper">
+          <input 
+            [type]="showPassword ? 'text' : 'password'" 
+            placeholder="Enter your password" 
+            formControlName="password"
+            [class.error]="password.invalid && (password.dirty || password.touched)"
+          >
+          <img 
+            src="/assets/Eye.png" 
+            alt="Toggle" 
+            class="eye-icon" 
+            (click)="togglePassword()"
+          >
+        </div>
+        <div class="error-text" *ngIf="password.invalid && (password.dirty || password.touched)">
+          <span *ngIf="password.errors?.['required']">Password is required</span>
+        </div>
+      </div>
 
-      <!-- Login button -->
+      <a routerLink="/forgot-password" class="forgot">Forgot password</a>
 
-      <button class="login-btn" (click)="onSubmit()">Sign in</button>
+      <button 
+        type="submit" 
+        class="login-btn" 
+        [disabled]="loginForm.invalid || isLoading()"
+      >
+        {{ isLoading() ? 'Signing in...' : 'Sign in' }}
+      </button>
+
+      <div class="server-error" *ngIf="errorMessage()">
+        {{ errorMessage() }}
+      </div>
+    </form>
+     
     </div>
   </div>
 </div>

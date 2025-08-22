@@ -1,61 +1,127 @@
-import { Component } from '@angular/core';
+import { Component, OnInit, signal } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { FormsModule } from '@angular/forms';
-import { AuthService, RegisterDto } from '../../../../core/services/auth.service';
+import { AbstractControl, FormBuilder, FormGroup, FormsModule, ValidationErrors, ValidatorFn, Validators } from '@angular/forms';
 import { ReactiveFormsModule } from '@angular/forms';
+import { ApiResponse, AuthService, RegisterRequest, RegisterResponse } from '../../../../core/services/auth.service';
+import { Router, RouterLink } from '@angular/router';
 
 
 @Component({
   selector: 'app-signup',
   standalone: true,
-  imports: [CommonModule, FormsModule,ReactiveFormsModule],
+  imports: [CommonModule, FormsModule, ReactiveFormsModule, RouterLink],
   templateUrl: './signup.html',
   styleUrls: ['./signup.css']
 })
-export class SignUp {
-  firstName = '';
-  lastName = '';
-  email = '';
-  phone = '';
-  password = '';
-  confirmPassword = '';
-
+export class SignupComponent implements OnInit {
+  signupForm: FormGroup;
+  isLoading = signal(false);
+  errorMessage = signal('');
+  successMessage = signal('');
   showPassword = false;
   showConfirmPassword = false;
 
-  constructor(private authService: AuthService) {}
+  constructor(
+    private fb: FormBuilder,
+    private authService: AuthService,
+    private router: Router
+  ) {
+    this.signupForm = this.createForm();
+  }
+ngOnInit(): void {
+    // Redirect if already logged in
+    if (this.authService.isAuthenticated()) {
+      this.router.navigate(['/home']);
+    }
+  }
+  private createForm(): FormGroup {
+    return this.fb.group({
+      firstName: ['', [Validators.required, Validators.maxLength(50)]],
+      lastName: ['', [Validators.required, Validators.maxLength(50)]],
+      email: ['', [Validators.required, Validators.email]],
+      phoneNumber: ['', [Validators.required, Validators.pattern(/^\+?[0-9]{7,15}$/)]],
+      password: ['', [Validators.required, Validators.minLength(6)]],
+      confirmPassword: ['', [Validators.required]]
+    }, { validators: this.passwordMatchValidator });
+  }
 
-  signup() {
-    const registerData: RegisterDto = {
-      firstName: this.firstName, 
-      lastName: this.lastName,
-      email: this.email,
-      phoneNumber: this.phone,
-      password: this.password,
-      confirmPassword: this.confirmPassword
-    };
+  private passwordMatchValidator: ValidatorFn = (control: AbstractControl): ValidationErrors | null => {
+    const password = control.get('password');
+    const confirmPassword = control.get('confirmPassword');
+    
+    if (password && confirmPassword && password.value !== confirmPassword.value) {
+      confirmPassword.setErrors({ passwordMismatch: true });
+      return { passwordMismatch: true };
+    }
+    
+    if (confirmPassword && confirmPassword.errors?.['passwordMismatch']) {
+      delete confirmPassword.errors['passwordMismatch'];
+      if (Object.keys(confirmPassword.errors).length === 0) {
+        confirmPassword.setErrors(null);
+      }
+    }
+    
+    return null;
+  };
 
-    this.authService.register(registerData).subscribe({
-      next: (response) => {
-        console.log('✅ Registration successful:', response);
-        alert('User registered successfully!');
+  get firstName() { return this.signupForm.get('firstName')!; }
+  get lastName() { return this.signupForm.get('lastName')!; }
+  get email() { return this.signupForm.get('email')!; }
+  get phoneNumber() { return this.signupForm.get('phoneNumber')!; }
+  get password() { return this.signupForm.get('password')!; }
+  get confirmPassword() { return this.signupForm.get('confirmPassword')!; }
+
+  togglePassword(field: 'password' | 'confirmPassword'): void {
+    if (field === 'password') {
+      this.showPassword = !this.showPassword;
+    } else {
+      this.showConfirmPassword = !this.showConfirmPassword;
+    }
+  }
+
+  onSubmit(): void {
+    if (this.signupForm.invalid) {
+      this.markAllAsTouched();
+      return;
+    }
+
+    this.isLoading.set(true);
+    this.errorMessage.set('');
+    this.successMessage.set('');
+
+    const formData: RegisterRequest = this.signupForm.value;
+
+    this.authService.register(formData).subscribe({
+      next: (response: ApiResponse<string>) => {
+        this.isLoading.set(false);
+        
+        if (response.succeeded) {
+          this.successMessage.set(response.message);
+          this.signupForm.disable();
+          
+        } else {
+          this.errorMessage.set(response.message || 'Registration failed. Please try again.');
+        }
       },
-      error: (err) => {
-        console.error('❌ Registration failed:', err);
-        alert('Registration failed. Please try again.');
+      error: (error) => {
+        this.isLoading.set(false);
+        
+        if (error.error?.errors) {
+          const errorMessages = Object.values(error.error.errors).flat();
+          this.errorMessage.set(errorMessages.join(', ') || 'Registration failed. Please check your inputs.');
+        } else {
+          this.errorMessage.set(
+            error.error?.message || 
+            'Registration failed. Please try again later.'
+          );
+        }
       }
     });
   }
 
-  togglePassword(field: string) {
-    const input = document.querySelector<HTMLInputElement>(`input[name="${field}"]`);
-    if (input) {
-      input.type = input.type === 'password' ? 'text' : 'password';
-    }
-    if (field === 'password') {
-      this.showPassword = !this.showPassword;
-    } else if (field === 'confirmPassword') {
-      this.showConfirmPassword = !this.showConfirmPassword;
-    }
+  private markAllAsTouched(): void {
+    Object.keys(this.signupForm.controls).forEach(key => {
+      this.signupForm.get(key)?.markAsTouched();
+    });
   }
 }

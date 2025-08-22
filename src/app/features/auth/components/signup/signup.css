@@ -203,3 +203,40 @@
     width: 100%;
   }
 }
+
+
+     .error {
+      border-color: #dc3545 !important;
+    }
+    
+    .error-text {
+      color: #dc3545;
+      font-size: 12px;
+      margin-top: 4px;
+      min-height: 16px;
+    }
+    
+    .server-error {
+      color: #dc3545;
+      text-align: center;
+      margin-top: 15px;
+      padding: 10px;
+      background: #f8d7da;
+      border: 1px solid #f5c6cb;
+      border-radius: 4px;
+    }
+    
+    .success-message {
+      color: #28a745;
+      text-align: center;
+      margin-top: 15px;
+      padding: 10px;
+      background: #d4edda;
+      border: 1px solid #c3e6cb;
+      border-radius: 4px;
+    }
+    
+    .signup-btn:disabled {
+      opacity: 0.6;
+      cursor: not-allowed;
+    }
