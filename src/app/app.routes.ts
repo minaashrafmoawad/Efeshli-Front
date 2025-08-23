@@ -6,11 +6,13 @@ import { HomeComponent } from './features/home/home.component';
 import { EmailConfirmationComponent } from './features/auth/components/EmailConfirmation/EmailConfirmation.component';
 import { ProductDetailPageComponent } from './features/products/components/product-details/product-details';
 import { AuthGuard } from './core/guards/auth-guard';
+import { ForgotPasswordComponent } from './features/auth/components/forgot-password/forgot-password.component';
 
 export const routes: Routes = [
   { path: 'login',  loadComponent: () => import('./features/auth/components/login/login').then(m => m.LoginComponent),canActivate:[AuthGuard] },
   {path:'signup',loadComponent:()=>import('./features/auth/components/signup/signup').then(m=>m.SignupComponent)},
   { path: 'confirm-email', component: EmailConfirmationComponent, canActivate: [AuthGuard] },
+  {path:"forgot-password",component:ForgotPasswordComponent},
   { path: 'home', component: HomeComponent },
   { path: 'cart', component: CartItemsComponent },
   { path: 'full-cart', component: FullCartItemsComponent },
