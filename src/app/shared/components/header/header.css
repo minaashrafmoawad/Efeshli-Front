@@ -1,0 +1,289 @@
+/* Top Bar Styles */
+*{
+  font-family: 'Averta';
+}
+
+.top-bar {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 1px 20px;
+  margin: 0 0 4px;
+  background-color: #F4F4F4;
+  border-bottom: 1px solid #e5e7eb;
+  font-size: 14px;
+  position: sticky;
+  top: 0;
+  z-index: 1000;
+}
+
+.top-bar-left {
+  display: flex;
+  gap: 50px;
+}
+
+.tab-button {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  padding: 8px 16px;
+  border: none;
+  background: none;
+  color: #000;
+  font-size: 14px;
+  font-weight: 500;
+  cursor: pointer;
+  border-radius: 4px;
+  transition: all 0.2s ease;
+}
+
+.tab-button.active {
+  color: rgb(197 4 2);
+  font-weight: 600;
+}
+
+.tab-button:hover {
+  background-color: #f9fafb;
+}
+
+.tab-button svg {
+  width: 16px;
+  height: 16px;
+}
+
+.top-bar-right {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 14px;
+}
+
+.top-link {
+  color: #000;
+  text-decoration: none;
+  /* font-weight: 600; */
+  /* letter-spacing: 0.5px; */
+  /* font-weight: 500; */
+}
+
+.top-link:hover {
+  color: #ef4444;
+}
+
+.separator {
+  color: #000;
+  margin: 0 4px;
+}
+
+/* Main Header Styles */
+.main-header {
+  background-color: #ffffff;
+  padding: 8px 20px;
+  position: sticky;
+  top: 0;
+  z-index: 1000;
+}
+
+.header-content {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  max-width: 1400px;
+  /* margin: 0 auto; */
+}
+
+/* Search Container Styles */
+.search-container {
+  flex: 1;
+  max-width: 1000px;
+  /* margin: 0 10px; */
+}
+
+.search-box {
+  position: relative;
+  display: flex;
+  align-items: center;
+  background-color: #f9fafb;
+  border: 1px solid #e5e7eb;
+  border-radius: 24px;
+  padding: 0 16px;
+  height: 45px;
+}
+
+.search-icon {
+  color: #000;
+  margin-right: 15px;
+  flex-shrink: 0;
+}
+
+.search-input {
+  flex: 1;
+  border: none;
+  background: none;
+  outline: none;
+  font-size: 14px;
+  color: #374151;
+}
+
+.search-input::placeholder {
+  color: #9ca3af;
+}
+
+.search-box:hover{
+  border: 1px solid #dc2626;
+}
+
+/* Header Actions Styles */
+.header-actions {
+  position: relative;
+  margin-right: -80px;
+  display: flex;
+  align-items: center;
+  gap: 24px;
+}
+
+.action-button {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  background: none;
+  border: none;
+  color: #374151;
+  font-size: 14px;
+  font-weight: 500;
+  cursor: pointer;
+  padding: 8px 0;
+  transition: color 0.2s ease;
+}
+
+.action-button:hover {
+  color: #dc2626;
+}
+
+.action-button svg {
+  width: 20px;
+  height: 20px;
+}
+
+/* Navigation Styles */
+.navigation {
+  background-color: #ffffff;
+}
+
+.nav-content {
+  display: flex;
+  align-items: center;
+  gap: 36px;
+  max-width: 1400px;
+  margin: 0 20px;
+  overflow-x: auto;
+}
+
+.nav-item {
+  background: none;
+  border: none;
+  color: #000;
+  font-size: 14px;
+  font-weight: 500;
+  padding: 16px 0;
+  cursor: pointer;
+  white-space: nowrap;
+  transition: color 0.2s ease;
+  position: relative;
+}
+
+.nav-item:hover {
+  color: #dc2626;
+}
+
+.nav-item.special {
+  color: #dc2626;
+}
+
+.nav-item.special:hover {
+  color: #dc2626;
+  text-decoration: underline;
+  text-underline-offset: 4px;
+}
+
+/* Responsive Design */
+@media (max-width: 1024px) {
+  .header-content {
+    padding: 0 16px;
+  }
+  
+  .search-container {
+    margin: 0 20px;
+  }
+  
+  .header-actions {
+    gap: 16px;
+  }
+  
+  .nav-content {
+    gap: 24px;
+    padding: 0 16px;
+  }
+}
+
+@media (max-width: 768px) {
+  .top-bar {
+    padding: 8px 16px;
+  }
+  
+  .main-header {
+    padding: 12px 16px;
+  }
+  
+  .header-content {
+    flex-direction: column;
+    gap: 16px;
+  }
+  
+  .search-container {
+    width: 100%;
+    margin: 0;
+  }
+  
+  .header-actions {
+    gap: 12px;
+  }
+  
+  .action-button span {
+    display: none;
+  }
+  
+  .nav-content {
+    gap: 16px;
+    justify-content: flex-start;
+  }
+  
+  .nav-item {
+    font-size: 14px;
+    padding: 12px 0;
+  }
+}
+
+@media (max-width: 480px) {
+  .top-bar-right {
+    font-size: 12px;
+  }
+  
+  .logo {
+    font-size: 20px;
+  }
+  
+  .search-box {
+    height: 44px;
+    padding: 0 12px;
+  }
+  
+  .search-input {
+    font-size: 14px;
+  }
+  
+  .nav-content {
+    gap: 12px;
+  }
+}
+
