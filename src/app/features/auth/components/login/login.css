@@ -1,7 +1,7 @@
 /* Layout */
 .login-wrapper {
   display: flex;
-  height: 100vh;
+  height: 80vh;
   font-family: Arial, sans-serif;
 }
 
@@ -136,6 +136,10 @@ input {
   color: red;
 margin: 8px 0;
   text-align: right;
+    font-weight: 700;
+        --tw-text-opacity: 1;
+    color: rgb(196 1 1/var(--tw-text-opacity,1));
+
 }
 
 /* Login button */
