@@ -4,6 +4,7 @@ import { Router, RouterLink } from '@angular/router';
 import { CommonModule } from '@angular/common';
 import { finalize } from 'rxjs/operators';
 import { AuthService, ForgotPasswordRequest } from '../../../../core/services/auth.service';
+import { ChangeDetectorRef, NgZone } from '@angular/core';
 
 @Component({
   selector: 'app-forgot-password',
@@ -22,7 +23,8 @@ export class ForgotPasswordComponent implements OnInit {
   constructor(
     private formBuilder: FormBuilder,
     private authService: AuthService,
-    private router: Router
+    private cdr: ChangeDetectorRef,
+     private ngZone: NgZone
   ) {
     this.forgotPasswordForm = this.formBuilder.group({
       email: ['', [Validators.required, Validators.email]]
@@ -54,22 +56,30 @@ export class ForgotPasswordComponent implements OnInit {
 
     this.authService.forgotPassword(request)
       .pipe(
-        finalize(() => this.loading = false)
+        finalize(() => {this.loading = false;  
+             this.ngZone.run(() => this.cdr.detectChanges());
+})
+        
       )
       .subscribe({
         next: (response) => {
           if (response.succeeded) {
-            // Show success message regardless of whether email exists
-            this.successMessage = 'If the email exists, a password reset link has been sent';
+
+            // Show success state with the message from the image
+            this.successMessage =response.message; 
+            // 'We have e-mailed your password reset link!';
+            this.loading = false
           } else {
             // Handle API errors that aren't HTTP errors
             this.emailNotFound = true;
+            this.loading = false
           }
         },
         error: (error) => {
           // Handle HTTP errors
           console.error('Password reset error:', error);
           this.emailNotFound = true;
+          this.loading = false
         }
       });
   }
