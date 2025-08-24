@@ -1,5 +1,6 @@
 (function(window) {
   window["env"] = window["env"] || {};
   // Default fallback (local dev)
-  window["env"]["apiUrl"] = "http://localhost:5000/api";
+  window["env"]["apiUrl"] = "http://localhost:5104/api";
+
 })(this);
