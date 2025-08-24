@@ -15,12 +15,12 @@
     "options": {
       "browser": "src/main.ts",
       "tsConfig": "tsconfig.app.json",
-      "assets": [
-        {
-          "glob": "**/*",
-          "input": "public"
-        }
-      ],
+    "assets": [
+  "src/favicon.ico",
+  "src/assets",
+  "src/assets/env.template.js",
+  "src/_redirects"
+],
       "styles": [
         "src/styles.css"
       ]

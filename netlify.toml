@@ -1,6 +1,11 @@
 [build]
   command = "npm run build"
-  publish = "dist/e-freshli-clone/browser"
+  publish = "dist/eFreshli-clone/browser"
 
-[build.environment]
-  NODE_VERSION = "18"
+[context.production.environment]
+  API_URL = "http://efreshliapi.runasp.net/api"
+
+[[redirects]]
+  from = "/*"
+  to = "/index.html"
+  status = 200
