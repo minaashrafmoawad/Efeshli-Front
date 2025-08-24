@@ -1,5 +1,4 @@
-
 export const environment = {
   production: true,
-  apiUrl: (window as any)["env"]["apiUrl"] || "http://localhost:5104/api"
+  apiUrl: process.env['API_URL'] || 'http://efreshliapi.runasp.net/api'
 };
