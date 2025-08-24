@@ -1,0 +1,11 @@
+[build]
+  command = "npm run build"
+  publish = "dist/eFreshli-clone/browser"
+
+[context.production.environment]
+  API_URL = "http://efreshliapi.runasp.net/api"
+
+[[redirects]]
+  from = "/*"
+  to = "/index.html"
+  status = 200

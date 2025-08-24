@@ -86,12 +86,12 @@ export class AuthService {
     return this.http.post<ApiResponse<string>>(`${this.apiUrl}/register`, userData);
   }
 
-  forgotPassword(request: ForgotPasswordRequest): Observable<ApiResponse<any>> {
-    return this.http.post<ApiResponse<any>>(`${this.apiUrl}/forgot-password`, request);
+  forgotPassword(request: ForgotPasswordRequest): Observable<ApiResponse<Boolean>> {
+   return  this.http.post<ApiResponse<Boolean>>(`${this.apiUrl}/forgot-password`, request);
   }
 
-  resetPassword(request: ResetPasswordRequest): Observable<ApiResponse<any>> {
-    return this.http.post<ApiResponse<any>>(`${this.apiUrl}/reset-password`, request);
+  resetPassword(request: ResetPasswordRequest): Observable<ApiResponse<boolean>> {
+    return this.http.post<ApiResponse<boolean>>(`${this.apiUrl}/reset-password`, request);
   }
 
   logout(): void {
