@@ -6,6 +6,7 @@
   API_URL = "http://efreshliapi.runasp.net/api"
 
 [[redirects]]
-  from = "/*"
-  to = "/index.html"
+  from = "/api/*"
+  to = "http://efreshliapi.runasp.net/api/:splat"
   status = 200
+  force = true
