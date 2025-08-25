@@ -2,7 +2,7 @@ import { Component, OnInit, signal } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { AbstractControl, FormBuilder, FormGroup, FormsModule, ValidationErrors, ValidatorFn, Validators } from '@angular/forms';
 import { ReactiveFormsModule } from '@angular/forms';
-import { ApiResponse, AuthService, RegisterRequest, RegisterResponse } from '../../../../core/services/auth.service';
+import { ApiResponse, AuthService, RegisterRequest } from '../../../../core/services/auth.service';
 import { Router, RouterLink } from '@angular/router';
 
 
