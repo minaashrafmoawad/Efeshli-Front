@@ -11,15 +11,15 @@ import { ForgotPasswordComponent } from './features/auth/components/forgot-passw
 import { ResetPasswordComponent } from './features/auth/components/reset-password/reset-password.component';
 
 export const routes: Routes = [
-  { path: 'login',  loadComponent: () => import('./features/auth/components/login/login').then(m => m.LoginComponent),canActivate:[AuthGuard] },
-  {path:'signup',loadComponent:()=>import('./features/auth/components/signup/signup').then(m=>m.SignupComponent)},
-  { path: 'confirm-email', component: EmailConfirmationComponent, canActivate: [AuthGuard] },
+  { path: 'login',  loadComponent: () => import('./features/auth/components/login/login').then(m => m.LoginComponent) ,canActivate:[ReverseAuthGuard]},
+  {path:'signup',loadComponent:()=>import('./features/auth/components/signup/signup').then(m=>m.SignupComponent),canActivate:[ReverseAuthGuard]},
+  { path: 'confirm-email', component: EmailConfirmationComponent, canActivate: [ReverseAuthGuard] },
   {path:"forgot-password",component:ForgotPasswordComponent},
   {path:"reset-password",component:ResetPasswordComponent},
   {path:"test",component:TestComponent},
   { path: 'home', component: HomeComponent },
-  { path: 'cart', component: CartItemsComponent },
-  { path: 'full-cart', component: FullCartItemsComponent },
+  { path: 'cart', component: CartItemsComponent ,canActivate:[AuthGuard]},
+  { path: 'full-cart', component: FullCartItemsComponent ,canActivate:[AuthGuard]},
   { path: 'product-details/:id', component: ProductDetailPageComponent },
   { path: '', redirectTo: 'home', pathMatch: 'full' },
   { path: '**', redirectTo: 'home' }
