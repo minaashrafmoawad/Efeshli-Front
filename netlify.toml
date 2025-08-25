@@ -6,7 +6,7 @@
   API_URL = "http://efreshliapi.runasp.net/api"
 
 [[redirects]]
-  from = "/api/*"
-  to = "http://efreshliapi.runasp.net/api/:splat"
-  status = 200
+ from = "https://efreshli.netlify.app/*"
+  to = "http://efreshli.netlify.app/:splat"
+  status = 301
   force = true
