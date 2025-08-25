@@ -3,7 +3,7 @@
   command = "npm run build && echo \"(function(window){window.env={API_URL:'$API_URL'}})(this);\" > dist/eFreshli-clone/browser/assets/env.js"
   publish = "dist/eFreshli-clone/browser"
 [context.production.environment]
-  API_URL = "http://efreshliapi.runasp.net/api"
+  API_URL = "https://efreshliapi.runasp.net/api"
 
 [[redirects]]
  from = "https://efreshli.netlify.app/*"
