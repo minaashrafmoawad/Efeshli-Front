@@ -1,18 +1,10 @@
-// web/src/app/core/guards/auth.guard.ts
-import { Injectable } from '@angular/core';
-import { CanActivate, Router, UrlTree } from '@angular/router';
+import { inject } from '@angular/core';
+import { Router, type UrlTree } from '@angular/router';
 import { AuthService } from '../services/auth.service';
 
-@Injectable({
-  providedIn: 'root'
-})
-export class AuthGuard implements CanActivate {
-  constructor(private authService: AuthService, private router: Router) {}
+export const authGuard = (): boolean | UrlTree => {
+  const authService = inject(AuthService);
+  const router = inject(Router);
 
-  canActivate(): boolean | UrlTree {
-  if (!this.authService.isAuthenticated()) {
-    return this.router.parseUrl('/login');
-  }
-  return true;
-}
-}
+  return authService.isAuthenticated() ? true : router.parseUrl('/login');
+};

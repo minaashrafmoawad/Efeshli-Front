@@ -2,7 +2,7 @@ import { Component, OnInit, signal } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { AbstractControl, FormBuilder, FormGroup, FormsModule, ValidationErrors, ValidatorFn, Validators } from '@angular/forms';
 import { ReactiveFormsModule } from '@angular/forms';
-import { ApiResponse, AuthService, RegisterRequest, RegisterResponse } from '../../../../core/services/auth.service';
+import { ApiResponse, AuthService, RegisterRequest } from '../../../../core/services/auth.service';
 import { Router, RouterLink } from '@angular/router';
 
 
@@ -33,6 +33,9 @@ ngOnInit(): void {
     if (this.authService.isAuthenticated()) {
       this.router.navigate(['/home']);
     }
+    // Initialize OAuth
+    this.authService.initializeGoogleOAuth();
+    this.authService.initializeFacebookOAuth();
   }
   private createForm(): FormGroup {
     return this.fb.group({
@@ -122,6 +125,20 @@ ngOnInit(): void {
   private markAllAsTouched(): void {
     Object.keys(this.signupForm.controls).forEach(key => {
       this.signupForm.get(key)?.markAsTouched();
+    });
+  }
+
+
+  //OAuth 
+   onGoogleSignIn(): void {
+    this.authService.googleLogin().catch(error => {
+      this.errorMessage.set('Google sign-in failed. Please try again.');
+    });
+  }
+
+  onFacebookSignIn(): void {
+    this.authService.facebookLogin().catch(error => {
+      this.errorMessage.set('Facebook sign-in failed. Please try again.');
     });
   }
 }
