@@ -799,7 +799,7 @@ export class AuthService {
   ) {
     this.initializeAuthState();
   }
-
+errorMessage:string="";
   /**
    * Initialize authentication state from stored token
    */
@@ -1292,7 +1292,7 @@ private async handleGoogleCredentialResponse(response: any): Promise<void> {
             },
             error: (registerError) => {
               console.error('Google OAuth registration failed:', registerError);
-              this.errorMessage.set('Google registration failed. Please try again.');
+              // this.errorMessage.set('Google registration failed. Please try again.');
             }
           });
         } else {
