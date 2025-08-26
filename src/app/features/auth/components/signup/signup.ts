@@ -130,15 +130,41 @@ ngOnInit(): void {
 
 
   //OAuth 
-   onGoogleSignIn(): void {
-    this.authService.googleLogin().catch(error => {
-      this.errorMessage.set('Google sign-in failed. Please try again.');
-    });
-  }
+  //  onGoogleSignIn(): void {
+  //   this.authService.googleLogin().catch(error => {
+  //     this.errorMessage.set('Google sign-in failed. Please try again.');
+  //   });
+  // }
 
-  onFacebookSignIn(): void {
-    this.authService.facebookLogin().catch(error => {
-      this.errorMessage.set('Facebook sign-in failed. Please try again.');
-    });
-  }
+  // onFacebookSignIn(): void {
+  //   this.authService.facebookLogin().catch(error => {
+  //     this.errorMessage.set('Facebook sign-in failed. Please try again.');
+  //   });
+  // }
+
+  onGoogleSignIn(): void {
+  this.isLoading.set(true);
+  this.errorMessage.set('');
+  
+  this.authService.googleLogin().then(() => {
+    this.isLoading.set(false);
+  }).catch(error => {
+    this.isLoading.set(false);
+    console.error('Google sign-in error:', error);
+    this.errorMessage.set('Google sign-in failed. Please try again.');
+  });
+}
+
+onFacebookSignIn(): void {
+  this.isLoading.set(true);
+  this.errorMessage.set('');
+  
+  this.authService.facebookLogin().then(() => {
+    this.isLoading.set(false);
+  }).catch(error => {
+    this.isLoading.set(false);
+    console.error('Facebook sign-in error:', error);
+    this.errorMessage.set('Facebook sign-in failed. Please try again.');
+  });
+}
 }
