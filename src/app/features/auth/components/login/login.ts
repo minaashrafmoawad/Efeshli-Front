@@ -112,4 +112,5 @@ export class LoginComponent implements OnInit {
       this.loginForm.get(key)?.markAsTouched();
     });
   }
+  
 }

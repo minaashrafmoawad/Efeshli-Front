@@ -136,9 +136,19 @@ ngOnInit(): void {
     });
   }
 
-  onFacebookSignIn(): void {
-    this.authService.facebookLogin().catch(error => {
-      this.errorMessage.set('Facebook sign-in failed. Please try again.');
-    });
+  // onFacebookSignIn(): void {
+  //   this.authService.facebookLogin().catch(error => {
+  //     this.errorMessage.set('Facebook sign-in failed. Please try again.');
+  //   });
+  // }
+  async onFacebookSignIn() {
+  try {
+    const response = await this.authService.facebookLogin();
+    console.log('Facebook login successful', response);
+  } catch (error) {
+    console.error('Facebook login failed:', error);
+    // Show user-friendly error message
+    // this.showError(error.message || 'Facebook login failed');
   }
+}
 }
