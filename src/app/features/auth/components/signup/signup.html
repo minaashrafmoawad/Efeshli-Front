@@ -13,11 +13,11 @@
 
     <!-- Social Buttons -->
     <div class="social-buttons">
-      <button class="social-btn google-btn">
+      <button class="social-btn google-btn" (click)="onGoogleSignIn()">
         <img src="./assets/Google.png" alt="Google">
         <span class="label-text">Continue with Google</span>
       </button>
-      <button class="social-btn facebook-btn">
+      <button class="social-btn facebook-btn" (click)="onFacebookSignIn()">
         <img src="./assets/Facebook.png" alt="Facebook">
         <span class="label-text">Continue with Facebook</span>
       </button>
@@ -153,5 +153,7 @@
         {{ errorMessage() }}
       </div>
     </form>
+        <div id="google-login-button" style="display: none;"></div>
+
   </div>
 </div>
