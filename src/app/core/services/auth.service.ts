@@ -799,7 +799,7 @@ export class AuthService {
   ) {
     this.initializeAuthState();
   }
-errorMessage:string="";
+
   /**
    * Initialize authentication state from stored token
    */
@@ -1298,13 +1298,13 @@ private async handleGoogleCredentialResponse(response: any): Promise<void> {
         } else {
           // Other error (not 404)
           console.error('Google OAuth login error:', loginError);
-          this.errorMessage.set('Google login failed. Please try again.');
+          // this.errorMessage.set('Google login failed. Please try again.');
         }
       }
     });
   } catch (error) {
     console.error('Google OAuth error:', error);
-    this.errorMessage.set('Google authentication failed. Please try again.');
+    // this.errorMessage.set('Google authentication failed. Please try again.');
   }
 }
   
@@ -1363,19 +1363,19 @@ private async handleFacebookAuthResponse(authResponse: any): Promise<void> {
             },
             error: (registerError) => {
               console.error('Facebook OAuth registration failed:', registerError);
-              this.errorMessage.set('Facebook registration failed. Please try again.');
+              // this.errorMessage.set('Facebook registration failed. Please try again.');
             }
           });
         } else {
           // Other error (not 404)
           console.error('Facebook OAuth login error:', loginError);
-          this.errorMessage.set('Facebook login failed. Please try again.');
+          // this.errorMessage.set('Facebook login failed. Please try again.');
         }
       }
     });
   } catch (error) {
     console.error('Facebook OAuth error:', error);
-    this.errorMessage.set('Facebook authentication failed. Please try again.');
+    // this.errorMessage.set('Facebook authentication failed. Please try again.');
   }
 }
   private async getFacebookUserInfo(accessToken: string): Promise<any> {
