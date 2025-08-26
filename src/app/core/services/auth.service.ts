@@ -1046,41 +1046,86 @@ export class AuthService {
   /**
    * OAuth registration
    */
+  // oauthRegister(request: OAuthRegisterRequest): Observable<ApiResponse<string>> {
+  //   return this.http.post<ApiResponse<string>>(`${this.apiUrl}/oauth/register`, request)
+  //     .pipe(
+  //       tap({
+  //         next: (response) => {
+  //           if (response.succeeded && response.data) {
+  //             this.setAuthState(response.data);
+  //           }
+  //         },
+  //         error: (error) => {
+  //           this.clearAuthState();
+  //         }
+  //       })
+  //     );
+  // }
   oauthRegister(request: OAuthRegisterRequest): Observable<ApiResponse<string>> {
-    return this.http.post<ApiResponse<string>>(`${this.apiUrl}/oauth/register`, request)
-      .pipe(
-        tap({
-          next: (response) => {
-            if (response.succeeded && response.data) {
-              this.setAuthState(response.data);
-            }
-          },
-          error: (error) => {
-            this.clearAuthState();
+  console.log('OAuth Register Request:', request);
+  return this.http.post<ApiResponse<string>>(`${this.apiUrl}/oauth/register`, request)
+    .pipe(
+      tap({
+        next: (response) => {
+          console.log('OAuth Register Response:', response);
+          if (response.succeeded && response.data) {
+            this.setAuthState(response.data);
           }
-        })
-      );
-  }
+        },
+        error: (error) => {
+          console.error('OAuth Register Error:', error);
+          if (error.error) {
+            console.error('OAuth Register Error Details:', error.error);
+          }
+          this.clearAuthState();
+        }
+      })
+    );
+}
 
   /**
    * OAuth login
    */
-  oauthLogin(request: OAuthRegisterRequest): Observable<ApiResponse<string>> {
-    return this.http.post<ApiResponse<string>>(`${this.apiUrl}/oauth/login`, request)
-      .pipe(
-        tap({
-          next: (response) => {
-            if (response.succeeded && response.data) {
-              this.setAuthState(response.data);
-            }
-          },
-          error: (error) => {
-            this.clearAuthState();
-          }
-        })
-      );
-  }
+  // oauthLogin(request: OAuthRegisterRequest): Observable<ApiResponse<string>> {
+  //   return this.http.post<ApiResponse<string>>(`${this.apiUrl}/oauth/login`, request)
+  //     .pipe(
+  //       tap({
+  //         next: (response) => {
+  //           if (response.succeeded && response.data) {
+  //             this.setAuthState(response.data);
+  //           }
+  //         },
+  //         error: (error) => {
+  //           this.clearAuthState();
+  //         }
+  //       })
+  //     );
+  // }
 
+
+oauthLogin(request: OAuthRegisterRequest): Observable<ApiResponse<string>> {
+  console.log('OAuth Login Request:', request);
+  return this.http.post<ApiResponse<string>>(`${this.apiUrl}/oauth/login`, request)
+    .pipe(
+      tap({
+        next: (response) => {
+          console.log('OAuth Login Response:', response);
+          if (response.succeeded && response.data) {
+            this.setAuthState(response.data);
+          }
+        },
+        error: (error) => {
+          console.error('OAuth Login Error:', error);
+          if (error.error) {
+            console.error('OAuth Login Error Details:', error.error);
+          }
+          this.clearAuthState();
+        }
+      })
+    );
+}
+
+  
   /**
    * Initialize Google OAuth
    */
@@ -1172,67 +1217,167 @@ export class AuthService {
     });
   }
 
-  private async handleGoogleCredentialResponse(response: any): Promise<void> {
-    try {
-      if (!response || !response.credential) {
-        throw new Error('Invalid Google response');
-      }
+  // private async handleGoogleCredentialResponse(response: any): Promise<void> {
+  //   try {
+  //     if (!response || !response.credential) {
+  //       throw new Error('Invalid Google response');
+  //     }
 
-      const credential = response.credential;
-      const payload = this.decodeJWT(credential);
+  //     const credential = response.credential;
+  //     const payload = this.decodeJWT(credential);
       
-      if (!payload || !payload.sub || !payload.email) {
-        throw new Error('Invalid Google token payload');
+  //     if (!payload || !payload.sub || !payload.email) {
+  //       throw new Error('Invalid Google token payload');
+  //     }
+
+  //     const oauthRequest: OAuthRegisterRequest = {
+  //       provider: 'Google',
+  //       providerKey: payload.sub,
+  //       email: payload.email,
+  //       firstName: payload.given_name || '',
+  //       lastName: payload.family_name || '',
+  //       phoneNumber: '',
+  //       accessToken: credential
+  //     };
+
+  //     this.oauthLogin(oauthRequest).subscribe({
+  //       error: (error) => {
+  //         if (error.status === 404) {
+  //           this.promptForPhoneNumber(oauthRequest);
+  //         }
+  //       }
+  //     });
+  //   } catch (error) {
+  //     console.error('Google OAuth error:', error);
+  //   }
+  // }
+
+
+private async handleGoogleCredentialResponse(response: any): Promise<void> {
+  try {
+    if (!response || !response.credential) {
+      throw new Error('Invalid Google response');
+    }
+
+    const credential = response.credential;
+    const payload = this.decodeJWT(credential);
+    
+    if (!payload || !payload.sub || !payload.email) {
+      throw new Error('Invalid Google token payload');
+    }
+
+    const oauthRequest: OAuthRegisterRequest = {
+      provider: 'Google',
+      providerKey: payload.sub,
+      email: payload.email,
+      firstName: payload.given_name || '',
+      lastName: payload.family_name || '',
+      phoneNumber: '',
+      accessToken: credential
+    };
+
+    // First try to login (in case user already exists)
+    this.oauthLogin(oauthRequest).subscribe({
+      next: (loginResponse) => {
+        console.log('Google OAuth login successful');
+      },
+      error: (loginError) => {
+        console.log('Google OAuth login failed, trying register:', loginError);
+        
+        // If login fails with 404 (user not found), try to register
+        if (loginError.status === 404) {
+          this.oauthRegister(oauthRequest).subscribe({
+            next: (registerResponse) => {
+              console.log('Google OAuth registration successful');
+            },
+            error: (registerError) => {
+              console.error('Google OAuth registration failed:', registerError);
+              this.errorMessage.set('Google registration failed. Please try again.');
+            }
+          });
+        } else {
+          // Other error (not 404)
+          console.error('Google OAuth login error:', loginError);
+          this.errorMessage.set('Google login failed. Please try again.');
+        }
       }
-
-      const oauthRequest: OAuthRegisterRequest = {
-        provider: 'Google',
-        providerKey: payload.sub,
-        email: payload.email,
-        firstName: payload.given_name || '',
-        lastName: payload.family_name || '',
-        phoneNumber: '',
-        accessToken: credential
-      };
-
-      this.oauthLogin(oauthRequest).subscribe({
-        error: (error) => {
-          if (error.status === 404) {
-            this.promptForPhoneNumber(oauthRequest);
-          }
-        }
-      });
-    } catch (error) {
-      console.error('Google OAuth error:', error);
-    }
+    });
+  } catch (error) {
+    console.error('Google OAuth error:', error);
+    this.errorMessage.set('Google authentication failed. Please try again.');
   }
-
-  private async handleFacebookAuthResponse(authResponse: any): Promise<void> {
-    try {
-      const userInfo = await this.getFacebookUserInfo(authResponse.accessToken);
+}
+  
+  // private async handleFacebookAuthResponse(authResponse: any): Promise<void> {
+  //   try {
+  //     const userInfo = await this.getFacebookUserInfo(authResponse.accessToken);
       
-      const oauthRequest: OAuthRegisterRequest = {
-        provider: 'Facebook',
-        providerKey: authResponse.userID,
-        email: userInfo.email,
-        firstName: userInfo.first_name,
-        lastName: userInfo.last_name,
-        phoneNumber: '',
-        accessToken: authResponse.accessToken
-      };
+  //     const oauthRequest: OAuthRegisterRequest = {
+  //       provider: 'Facebook',
+  //       providerKey: authResponse.userID,
+  //       email: userInfo.email,
+  //       firstName: userInfo.first_name,
+  //       lastName: userInfo.last_name,
+  //       phoneNumber: '',
+  //       accessToken: authResponse.accessToken
+  //     };
 
-      this.oauthLogin(oauthRequest).subscribe({
-        error: (error) => {
-          if (error.status === 404) {
-            this.promptForPhoneNumber(oauthRequest);
-          }
+  //     this.oauthLogin(oauthRequest).subscribe({
+  //       error: (error) => {
+  //         if (error.status === 404) {
+  //           this.promptForPhoneNumber(oauthRequest);
+  //         }
+  //       }
+  //     });
+  //   } catch (error) {
+  //     console.error('Facebook OAuth error:', error);
+  //   }
+  // }
+private async handleFacebookAuthResponse(authResponse: any): Promise<void> {
+  try {
+    const userInfo = await this.getFacebookUserInfo(authResponse.accessToken);
+    
+    const oauthRequest: OAuthRegisterRequest = {
+      provider: 'Facebook',
+      providerKey: authResponse.userID,
+      email: userInfo.email,
+      firstName: userInfo.first_name,
+      lastName: userInfo.last_name,
+      phoneNumber: '',
+      accessToken: authResponse.accessToken
+    };
+
+    // First try to login (in case user already exists)
+    this.oauthLogin(oauthRequest).subscribe({
+      next: (loginResponse) => {
+        console.log('Facebook OAuth login successful');
+      },
+      error: (loginError) => {
+        console.log('Facebook OAuth login failed, trying register:', loginError);
+        
+        // If login fails with 404 (user not found), try to register
+        if (loginError.status === 404) {
+          this.oauthRegister(oauthRequest).subscribe({
+            next: (registerResponse) => {
+              console.log('Facebook OAuth registration successful');
+            },
+            error: (registerError) => {
+              console.error('Facebook OAuth registration failed:', registerError);
+              this.errorMessage.set('Facebook registration failed. Please try again.');
+            }
+          });
+        } else {
+          // Other error (not 404)
+          console.error('Facebook OAuth login error:', loginError);
+          this.errorMessage.set('Facebook login failed. Please try again.');
         }
-      });
-    } catch (error) {
-      console.error('Facebook OAuth error:', error);
-    }
+      }
+    });
+  } catch (error) {
+    console.error('Facebook OAuth error:', error);
+    this.errorMessage.set('Facebook authentication failed. Please try again.');
   }
-
+}
   private async getFacebookUserInfo(accessToken: string): Promise<any> {
     return new Promise((resolve, reject) => {
       if (typeof FB === 'undefined') {
