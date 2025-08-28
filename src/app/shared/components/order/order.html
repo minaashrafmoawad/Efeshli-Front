@@ -1,0 +1,65 @@
+<div class="profile-container">
+  <!-- Sidebar -->
+  <div class="sidebar">
+    <!-- User Info -->
+    <div class="user-info">
+      <div class="avatar">
+        <span class="avatar-initial">O</span>
+      </div>
+      <div class="user-details">
+        <h3>Omnya Ahmed</h3>
+        <button class="sign-out-btn" (click)="signOut()">Sign out</button>
+      </div>
+    </div>
+
+    <!-- Navigation Menu -->
+    <nav class="nav-menu">
+      <a href="#" class="nav-item profile">
+        <span class="icon icon-profile"></span>
+        Profile
+      </a>
+      <a href="#" class="nav-item orders">
+        <span class="icon icon-orders"></span>
+        Orders
+      </a>
+      <a href="#" class="nav-item">
+        <span class="icon icon-addresses"></span>
+        Addresses
+      </a>
+      <a href="#" class="nav-item">
+        <span class="icon icon-transactions"></span>
+        Projects transactions
+      </a>
+      <a href="#" class="nav-item">
+        <span class="icon icon-refer"></span>
+        Refer a friend
+      </a>
+    </nav>
+  </div>
+
+  <!-- Main Content -->
+  <div class="main-content">
+    <div class="orders-content">
+      <h1 class="page-title">Orders</h1>
+      
+      <!-- Empty State -->
+      <div class="empty-state">
+        <!-- Empty Orders Image -->
+        <div class="empty-orders-image">
+          <img src="./assets/Cart-Items.png" alt="No Orders" />
+        </div>
+
+        <!-- Text Content -->
+        <div class="empty-text">
+          <h2 class="main-text">You Don't Have Any Orders Yet</h2>
+          <p class="sub-text">What Are You Waiting For?</p>
+        </div>
+
+        <!-- Start Shopping Button -->
+        <button class="start-shopping-btn" (click)="startShopping()">
+          Start Shopping Now
+        </button>
+      </div>
+    </div>
+  </div>
+</div>

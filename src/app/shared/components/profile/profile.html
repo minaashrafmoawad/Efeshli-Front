@@ -1,0 +1,172 @@
+<div class="profile-container">   
+  <!-- Sidebar -->   
+  <div class="sidebar">     
+    <!-- User Info -->     
+    <div class="user-info">       
+      <div class="avatar">         
+        <span class="avatar-initial">O</span>       
+      </div>       
+      <div class="user-details">         
+        <h3>Omnya Ahmed</h3>         
+        <button class="sign-out-btn" (click)="onSignOut()">Sign out</button>       
+      </div>     
+    </div>      
+
+    <!-- Navigation Menu -->     
+    <nav class="nav-menu">       
+      <a href="#" class="nav-item active">         
+        <i class="icon icon-profile"></i>         
+        <span>Profile</span>       
+      </a>       
+      <a href="#" class="nav-item">         
+        <i class="icon icon-orders"></i>         
+        <span>Orders</span>       
+      </a>       
+      <a href="#" class="nav-item">         
+        <i class="icon icon-addresses"></i>         
+        <span>Addresses</span>       
+      </a>       
+      <a href="#" class="nav-item">         
+        <i class="icon icon-transactions"></i>         
+        <span>Projects transactions</span>       
+      </a>       
+      <a href="#" class="nav-item">         
+        <i class="icon icon-refer"></i>         
+        <span>Refer a friend</span>       
+      </a>     
+    </nav>   
+  </div>    
+
+  <!-- Main Content -->   
+  <div class="main-content">     
+    <div class="profile-form">       
+      <h2 class="page-title">Profile</h2>              
+      
+      <div class="form-row">         
+        <div class="form-group">           
+          <label for="firstName">First Name</label>           
+          <input              
+            type="text"              
+            id="firstName"              
+            [(ngModel)]="profileData.firstName"             
+            class="form-input"             
+            placeholder="Enter your first name"           
+          >         
+        </div>         
+        <div class="form-group">           
+          <label for="lastName">Last Name</label>           
+          <input              
+            type="text"              
+            id="lastName"              
+            [(ngModel)]="profileData.lastName"             
+            class="form-input"             
+            placeholder="Enter your last name"           
+          >         
+        </div>       
+      </div>        
+
+      <div class="form-row">         
+        <div class="form-group">           
+          <label for="email">E-mail</label>           
+          <input              
+            type="email"              
+            id="email"              
+            [(ngModel)]="profileData.email"             
+            class="form-input"             
+            placeholder="Enter your email"           
+          >         
+        </div>         
+        <div class="form-group">   
+          <label for="phone">Phone Number</label>   
+          <div class="phone-input-container">     
+            <select class="country-code" [(ngModel)]="profileData.countryCode">       
+              <option value="+20" class="egypt-option">+20</option>       
+              <option value="+1">🇺🇸 +1</option>       
+              <option value="+966">🇸🇦 +966</option>       
+              <option value="+971">🇦🇪 +971</option>     
+            </select>     
+            <input        
+              type="tel"        
+              id="phone"        
+              [(ngModel)]="profileData.phone"       
+              class="phone-input"       
+              placeholder="Ex:01126332323"     
+            >   
+          </div> 
+        </div>       
+      </div>        
+
+      <!-- Password Field - FIXED -->
+      <div class="form-row">   
+        <div class="form-group password-group">     
+          <label for="password">Password</label>     
+          <input          
+            type="password"          
+            id="password"          
+            value="••••••••••••"         
+            class="form-input password-input"         
+            placeholder="Enter your password"
+            readonly         
+          >       
+          <!-- Fixed: Changed to button and moved outside input container -->
+          <button 
+            type="button" 
+            class="change-password-link" 
+            (click)="onChangePassword()">
+            Change Password
+          </button>     
+        </div>   
+        <div class="form-group"></div> 
+      </div>               
+
+      <div class="form-actions">         
+        <button            
+          type="button"           
+          class="save-btn"            
+          (click)="onSaveChanges()"         
+        >           
+          Save Changes         
+        </button>       
+      </div>     
+    </div>   
+  </div> 
+
+  <!-- Password Change Modal -->
+  <div class="modal-overlay" [class.show]="showPasswordModal" *ngIf="showPasswordModal" (click)="closePasswordModal()">
+    <div class="modal-content" (click)="$event.stopPropagation()">
+      <div class="modal-header">
+        <h3>Change Your Password</h3>
+        <button class="close-btn" (click)="closePasswordModal()">×</button>
+      </div>
+      
+      <div class="modal-body">
+        <div class="modal-form-group">
+          <label for="newPassword">New Password*</label>
+          <input
+            type="password"
+            id="newPassword"
+            [(ngModel)]="passwordData.newPassword"
+            class="modal-input"
+            placeholder="Enter new password"
+          >
+        </div>
+        
+        <div class="modal-form-group">
+          <label for="confirmPassword">Confirm The New Password*</label>
+          <input
+            type="password"
+            id="confirmPassword"
+            [(ngModel)]="passwordData.confirmPassword"
+            class="modal-input"
+            placeholder="Enter the new password again"
+          >
+        </div>
+      </div>
+      
+      <div class="modal-actions">
+        <button class="cancel-btn" (click)="closePasswordModal()">Cancel</button>
+        <button class="save-password-btn" (click)="savePasswordChanges()">Save</button>
+      </div>
+    </div>
+  </div>
+</div>

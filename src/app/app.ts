@@ -6,8 +6,10 @@ import { RouterOutlet } from '@angular/router';
 import { SignUp } from './features/auth/components/signup/signup';
 import { LoginComponent } from './features/auth/components/login/login';
 import { CartItemsComponent } from './features/cart/components/cart-items/cart-items';
-import {FullCartItemsComponent } from './shared/components/full-cart/full-cart-items';
+import { FullCartItemsComponent } from './shared/components/full-cart/full-cart-items';
 import { ProductDetailPageComponent } from './features/products/components/product-details/product-details';
+import { ProfileComponent } from './shared/components/profile/profile';
+import { OrdersComponent } from './shared/components/order/order';
 
 @Component({
   selector: 'app-root',
@@ -17,8 +19,10 @@ import { ProductDetailPageComponent } from './features/products/components/produ
     SignUp,
     LoginComponent,
     CartItemsComponent,
-    FullCartItemsComponent, // ✅ ضفته هنا
-    ProductDetailPageComponent
+    FullCartItemsComponent, 
+    ProductDetailPageComponent,
+    ProfileComponent,
+    OrdersComponent
   ],
   templateUrl: './app.html',
   styleUrls: ['./app.css']
