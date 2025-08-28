@@ -1,10 +1,18 @@
 import { inject } from '@angular/core';
-import { Router, type UrlTree } from '@angular/router';
+import { Router, UrlTree } from '@angular/router';
 import { AuthService } from '../services/auth.service';
 
 export const authGuard = (): boolean | UrlTree => {
   const authService = inject(AuthService);
   const router = inject(Router);
 
-  return authService.isAuthenticated() ? true : router.parseUrl('/login');
+  if (authService.isAuthenticated()) {
+    return true;
+  } else {
+    // Save the attempted URL for later redirect
+    const currentUrl = router.url;
+    return router.createUrlTree(['/login'], {
+      queryParams: { returnUrl: currentUrl }
+    });
+  }
 };
