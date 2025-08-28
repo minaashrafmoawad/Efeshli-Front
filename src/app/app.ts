@@ -19,4 +19,6 @@ import { HomeComponent } from "./features/home/home.component";
 })
 export class AppComponent {
   protected readonly title = signal('eFreshli-clone');
+
+
 }

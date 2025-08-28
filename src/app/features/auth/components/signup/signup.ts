@@ -3,8 +3,7 @@ import { CommonModule } from '@angular/common';
 import { AbstractControl, FormBuilder, FormGroup, FormsModule, ValidationErrors, ValidatorFn, Validators } from '@angular/forms';
 import { ReactiveFormsModule } from '@angular/forms';
 import { ApiResponse, AuthService, RegisterRequest } from '../../../../core/services/auth.service';
-import { Router, RouterLink } from '@angular/router';
-
+import { ActivatedRoute, Router, RouterLink } from '@angular/router';
 
 @Component({
   selector: 'app-signup',
@@ -13,7 +12,7 @@ import { Router, RouterLink } from '@angular/router';
   templateUrl: './signup.html',
   styleUrls: ['./signup.css']
 })
-export class SignupComponent implements OnInit {
+export class SignupComponent {
   signupForm: FormGroup;
   isLoading = signal(false);
   errorMessage = signal('');
@@ -24,19 +23,14 @@ export class SignupComponent implements OnInit {
   constructor(
     private fb: FormBuilder,
     private authService: AuthService,
-    private router: Router
-  ) {
+    private router: Router,
+    private route: ActivatedRoute, // ✅ Inject ActivatedRoute
+  ) 
+
+{
     this.signupForm = this.createForm();
   }
-ngOnInit(): void {
-    // Redirect if already logged in
-    if (this.authService.isAuthenticated()) {
-      this.router.navigate(['/home']);
-    }
-    // Initialize OAuth
-    this.authService.initializeGoogleOAuth();
-    this.authService.initializeFacebookOAuth();
-  }
+
   private createForm(): FormGroup {
     return this.fb.group({
       firstName: ['', [Validators.required, Validators.maxLength(50)]],
@@ -100,6 +94,7 @@ ngOnInit(): void {
         
         if (response.succeeded) {
           this.successMessage.set(response.message);
+          
           this.signupForm.disable();
           
         } else {
@@ -129,26 +124,20 @@ ngOnInit(): void {
   }
 
 
-  //OAuth 
-   onGoogleSignIn(): void {
-    this.authService.googleLogin().catch(error => {
-      this.errorMessage.set('Google sign-in failed. Please try again.');
-    });
+  // --- Google Sign-In ---
+  signInWithGoogle(): void {
+    const currentReturnUrl = this.route.snapshot.queryParams['returnUrl'] || '/';
+    sessionStorage.setItem('returnUrl', currentReturnUrl);
+    this.authService.loginWithGoogle();
   }
 
-  // onFacebookSignIn(): void {
-  //   this.authService.facebookLogin().catch(error => {
-  //     this.errorMessage.set('Facebook sign-in failed. Please try again.');
-  //   });
-  // }
-  async onFacebookSignIn() {
-  try {
-    const response = await this.authService.facebookLogin();
-    console.log('Facebook login successful', response);
-  } catch (error) {
-    console.error('Facebook login failed:', error);
-    // Show user-friendly error message
-    // this.showError(error.message || 'Facebook login failed');
+  // --- Facebook Sign-In ---
+  signInWithFacebook(): void {
+    const currentReturnUrl = this.route.snapshot.queryParams['returnUrl'] || '/';
+    sessionStorage.setItem('returnUrl', currentReturnUrl);
+    this.authService.loginWithFacebook();
   }
 }
-}
+
+
+
