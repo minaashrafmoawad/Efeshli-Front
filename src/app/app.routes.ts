@@ -9,7 +9,6 @@ import { ResetPasswordComponent } from './features/auth/components/reset-passwor
 import { authGuard } from './core/guards/auth-guard';
 import { reverseAuthGuard } from './core/guards/reverse-auth-guard';
 import test from 'node:test';
-import { TestComponent } from './features/test/test.component';
 export const routes: Routes = [
   { 
     path: 'login',  
@@ -20,11 +19,6 @@ export const routes: Routes = [
     path: 'signup',
     loadComponent: () => import('./features/auth/components/signup/signup').then(m => m.SignupComponent),
     canActivate: [reverseAuthGuard] 
-  },
-    {
-    path: 'test',
-    component:TestComponent,
-    // canActivate: [reverseAuthGuard] // ✅ Correct: functional guard reference
   },
   { 
     path: 'confirm-email', 
@@ -41,11 +35,7 @@ export const routes: Routes = [
     component: ResetPasswordComponent,
     canActivate: [reverseAuthGuard] // ✅ Correct: functional guard reference
   },
-  {
-    path: "test",
-    component: TestComponent,
-    canActivate: [authGuard] // ✅ Correct: functional guard reference
-  },
+
   { 
     path: 'home', 
     component: HomeComponent 
